@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Computer Science" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="大数据与大计算——Hadoop和MapReduce 大数据是各种来源的结构化和非结构化的数据，一般将超大文件划分成不同的块，把不同的块存储在分布式文件系统中。大计算是在大数据的背景下，单机的存储资源和计算能力有限，为了让大批量的不同任务能在短时间内完成，划分计算任务，使用集群并行计算。  Hadoop基础Hadoop组成 HDFS基本架构   HDFS是Hadoop分布式文件系统（Hadoop D">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大数据与大计算——Hadoop和MapReduce">
+<meta property="og:url" content="http://yoursite.com/2018/08/09/ 大数据与大计算——Hadoop和MapReduce/index.html">
+<meta property="og:site_name" content="Hanjie&#39;s Blog">
+<meta property="og:description" content="大数据与大计算——Hadoop和MapReduce 大数据是各种来源的结构化和非结构化的数据，一般将超大文件划分成不同的块，把不同的块存储在分布式文件系统中。大计算是在大数据的背景下，单机的存储资源和计算能力有限，为了让大批量的不同任务能在短时间内完成，划分计算任务，使用集群并行计算。  Hadoop基础Hadoop组成 HDFS基本架构   HDFS是Hadoop分布式文件系统（Hadoop D">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/images/hadoop.png">
+<meta property="og:image" content="http://yoursite.com/images/hdfs.png">
+<meta property="og:image" content="http://yoursite.com/images/hadoopwrite.png">
+<meta property="og:image" content="http://yoursite.com/images/hadoopread.png">
+<meta property="og:image" content="http://yoursite.com/images/copy.png">
+<meta property="og:image" content="http://yoursite.com/images/yarn2.png">
+<meta property="og:image" content="http://yoursite.com/images/mapreduce.png">
+<meta property="og:image" content="http://yoursite.com/images/MapReduceExample.png">
+<meta property="og:updated_time" content="2018-08-09T12:03:00.830Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="大数据与大计算——Hadoop和MapReduce">
+<meta name="twitter:description" content="大数据与大计算——Hadoop和MapReduce 大数据是各种来源的结构化和非结构化的数据，一般将超大文件划分成不同的块，把不同的块存储在分布式文件系统中。大计算是在大数据的背景下，单机的存储资源和计算能力有限，为了让大批量的不同任务能在短时间内完成，划分计算任务，使用集群并行计算。  Hadoop基础Hadoop组成 HDFS基本架构   HDFS是Hadoop分布式文件系统（Hadoop D">
+<meta name="twitter:image" content="http://yoursite.com/images/hadoop.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/09/ 大数据与大计算——Hadoop和MapReduce/"/>
+
+
+
+
+
+  <title>大数据与大计算——Hadoop和MapReduce | Hanjie's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hanjie's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Do what you like to do!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/09/ 大数据与大计算——Hadoop和MapReduce/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hanjie WU">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hanjie's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">大数据与大计算——Hadoop和MapReduce</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-09T09:09:19+08:00">
+                2018-08-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="大数据与大计算——Hadoop和MapReduce"><a href="#大数据与大计算——Hadoop和MapReduce" class="headerlink" title="大数据与大计算——Hadoop和MapReduce"></a>大数据与大计算——Hadoop和MapReduce</h1><blockquote>
+<p><strong>大数据</strong>是各种来源的结构化和非结构化的数据，一般将超大文件划分成不同的块，把不同的块存储在分布式文件系统中。<br><strong>大计算</strong>是在大数据的背景下，单机的存储资源和计算能力有限，为了让大批量的不同任务能在短时间内完成，划分计算任务，使用集群并行计算。</p>
+</blockquote>
+<h2 id="Hadoop基础"><a href="#Hadoop基础" class="headerlink" title="Hadoop基础"></a>Hadoop基础</h2><h3 id="Hadoop组成"><a href="#Hadoop组成" class="headerlink" title="Hadoop组成"></a>Hadoop组成</h3><p><img src="/images/hadoop.png" alt=""></p>
+<p>HDFS基本架构</p>
+<p><img src="/images/hdfs.png" alt=""></p>
+<ul>
+<li>HDFS是Hadoop分布式文件系统（Hadoop Distributed Filesystem），特点是用流式数据访问模式来存储超大文件（流式数据指数据是按一部分的单位进行流动，而不是全部数据一起，处理的时候也是先处理一部分的数据，而不是等全部数据准备好后，再来处理）</li>
+<li><p>特点：</p>
+<p>  易于扩展、可以运行在大量普通廉价的机器上、高容错（使用存储多个副本来保持容错性）、适合大数据存储以及批处理（采用移动计算不移动数据的方式来减少数据的网络传输）</p>
+<p>  不适合低延迟数据访问（数据以块存储，块内数据没有索引）、不适合大量小文件存储（NameNode会存储文件的元数据，大量小文件会是NameNode存储的信息过大，以及会花费较多的时间去进行小文件的寻道），不提供文件随机修改（只能在文件末尾追加，要修改的话只能覆盖）</p>
+</li>
+</ul>
+<p>HDFS的三个节点：Namenode（Active），Datanode，Namenode（Standby）</p>
+<p>Namenode（Active）：HDFS的守护进程，用来管理文件系统的命名空间，负责记录文件是如何分割成数据块，以及这些数据块分别被存储到哪些些数据节点上，它的主要功能是对内存及IO进行集中管理。</p>
+<p>Datanode：文件系统的工作节点，根据需要存储和检索数据块，并且定期向namenode发送他们所存储的块的列表。</p>
+<p>Namenode（Standby）：辅助后台程序，与NameNode进行通信，以便定期保存HDFS元数据的快照。</p>
+<hr>
+<h3 id="HDFS读取文件"><a href="#HDFS读取文件" class="headerlink" title="HDFS读取文件"></a>HDFS读取文件</h3><p><img src="/images/hadoopwrite.png" alt=""></p>
+<p> 过程描述：</p>
+<p>（1）客户端调用FileSyste对象的open()方法在分布式文件系统中打开要读取的文件。</p>
+<p>（2）分布式文件系统通过使用RPC（远程过程调用）来调用namenode，确定文件起始块的位置。</p>
+<p>（3）分布式文件系统的DistributedFileSystem类返回一个支持文件定位的输入流FSDataInputStream对象，FSDataInputStream对象接着封装DFSInputStream对象（存储着文件起始几个块的datanode地址），客户端对这个输入流调用read()方法。</p>
+<p>（4）DFSInputStream连接距离最近的datanode，通过反复调用read方法，将数据从datanode传输到客户端。</p>
+<p>（5） 到达块的末端时，DFSInputStream关闭与该datanode的连接，寻找下一个块的最佳datanode。</p>
+<p>（6）客户端完成读取，对FSDataInputStream调用close()方法关闭连接。</p>
+<hr>
+<h3 id="HDFS写入文件"><a href="#HDFS写入文件" class="headerlink" title="HDFS写入文件"></a>HDFS写入文件</h3><p><img src="/images/hadoopread.png" alt=""></p>
+<p>写文件过程分析：</p>
+<p>（1）客户端通过对DistributedFileSystem对象调用create()函数来新建文件。</p>
+<p>（2） 分布式文件系统对namenod创建一个RPC调用，在文件系统的命名空间中新建一个文件。</p>
+<p>（3）Namenode对新建文件进行检查无误后，分布式文件系统返回给客户端一个FSDataOutputStream对象，FSDataOutputStream对象封装一个DFSoutPutstream对象，负责处理namenode和datanode之间的通信，客户端开始写入数据。</p>
+<p>（4）FSDataOutputStream将数据分成一个一个的数据包，写入内部队列“数据队列”，DataStreamer负责将数据包依次流式传输到由一组namenode构成的管线中。</p>
+<p>（5）DFSOutputStream维护着确认队列来等待datanode收到确认回执，收到管道中所有datanode确认后，数据包从确认队列删除。</p>
+<p>（6）客户端完成数据的写入，对数据流调用close()方法。</p>
+<p>（7）namenode确认完成</p>
+<p>如何选择存储副本的位置：</p>
+<p><img src="/images/copy.png" alt=""></p>
+<p>副本1：同Client的节点上</p>
+<p>副本2：不同机架的节点上</p>
+<p>副本3：与第二个副本同一机架的另一节点</p>
+<p>其他副本：随机挑选</p>
+<p>默认一个数据块存储三个副本</p>
+<hr>
+<h3 id="YARN"><a href="#YARN" class="headerlink" title="YARN"></a>YARN</h3><p>管理系统，负责集群的统一管理和调度，与客户端交互，处理客户端请求。</p>
+<p><img src="/images/yarn2.png" alt=""><br>1、Resourcemanager<br>RM是一个全局的资源管理器，集群只有一个，负责整个系统的资源管理和分配，包括处理客户端请求、启动/监控APP master、监控nodemanager、资源的分配与调度。它主要由两个组件构成：调度器（Scheduler）和应用程序管理器（Applications Manager，ASM）。</p>
+<p>（1） 调度器<br>调度器根据容量、队列等限制条件（如每个队列分配一定的资源，最多执行一定数量的作业等），将系统中的资源分配给各个正在运行的应用程序。调度器仅根据各个应用程序的资源需求进行资源分配，而资源分配单位用一个抽象概念“资源容器”（Resource Container，简称Container）表示。</p>
+<p>（2） 应用程序管理器<br>应用程序管理器负责管理整个系统中所有应用程序，包括应用程序提交、与调度器协商资源以启动ApplicationMaster、监控ApplicationMaster运行状态并在失败时重新启动它等。</p>
+<p>2、ApplicationMaster（AM）<br>       管理YARN内运行的应用程序的每个实例。</p>
+<p>功能：</p>
+<pre><code>数据切分
+
+为应用程序申请资源并进一步分配给内部任务。
+
+任务监控与容错
+</code></pre><p>负责协调来自resourcemanager的资源，并通过nodemanager监视容易的执行和资源使用情况。</p>
+<p>3、NodeManager（NM）<br>Nodemanager整个集群有多个，负责每个节点上的资源和使用。</p>
+<p>功能：</p>
+<pre><code>单个节点上的资源管理和任务。
+
+处理来自于resourcemanager的命令。
+
+处理来自域app master的命令。
+</code></pre><p>Nodemanager管理着抽象容器，这些抽象容器代表着一些特定程序使用针对每个节点的资源。</p>
+<p>Nodemanager定时地向RM汇报本节点上的资源使用情况和各个Container的运行状态（cpu和内存等资源）</p>
+<p>4、Container<br>Container是YARN中的资源抽象，它封装了某个节点上的多维度资源，如内存、CPU、磁盘、网络等，当Aner，且该任务只能使用该Container中描述的资源。</p>
+<p>功能：</p>
+<pre><code>对task环境的抽象
+
+描述一系列信息
+
+任务运行资源的集合（cpu、内存、io等）
+
+任务运行环境
+</code></pre><hr>
+<h2 id="MapReduce计算框架"><a href="#MapReduce计算框架" class="headerlink" title="MapReduce计算框架"></a>MapReduce计算框架</h2><p>抽象模型设计的灵感来自于函数式语言的Map和Reduce原语</p>
+<pre><code>- Map：对输入数据应用Map操作得出一个中间&lt;key, value&gt;对集合
+- Reduce：对具有相同key的value集合上应用Reduce操作合并中间结果
+</code></pre><p><img src="/images/mapreduce.png" alt=""></p>
+<ul>
+<li><p>Map阶段概括：输入数据自动分割为M个片段集合，Map调用因此分到多台机器上并行处理。</p>
+</li>
+<li><p>Reduce阶段概括：使用分区函数将Map输出的key值分成R个分区（如hash(key) mod R），使得Reduce调用也被分到多台机器并行处理。这里分区数R和分区函数作为一个重要指标，由用户来指定。</p>
+</li>
+</ul>
+<p>a、用户调用MapReduce库将输入文件分为M个数据片段（即split，一般为16~64MB）</p>
+<p>b、用户程序有一个Master（即JobTracker ），其他都为Worker（即TaskTracker），由Master负责任务分配。</p>
+<p>c、被分配了Map任务的Map Worker读取数据片段，将其解析出&lt;key, value&gt;对传递给用户map函数处理，最后输出中间&lt;key, value&gt;对到内存</p>
+<p>d、缓存的&lt;key, value&gt;对通过分区函数分成R个分区，周期性写入本地磁盘，并将位置信息上传给Master。Master再将这些存储位置传给Reduce Worker</p>
+<p>e、Reduce Worker接收到信息后，使用RPC将落地的&lt;key, value&gt;对读取到本地，对Key排序后聚合相同Key值的数据，然后将&lt; key, list &lt; value > >对传递给用户reduce函数处理，最后输出到所属分区的输出文件（故最终的MapReduce输出为R个文件）</p>
+<ul>
+<li><p>Worker容灾</p>
+<pre><code>Master周期性Ping每个Worker维持心跳，约定时间内没收到返回信息则将Worker标为失效
+
+对于失效的Map Worker：Map任务输出到本机，已不可访问，故需重新执行
+
+对于失效的Reduce Worker：Reduce任务输出到全局文件系统，故不许重新执行
+
+MapReduce可以处理大规模Worker失效的情况，最多只需简单重新执行失效Worker未完成的任务
+</code></pre></li>
+<li><p>Master容灾</p>
+<pre><code>一个简单的方法为Master周期性将上面的数据结构落地，即检查点CheckPoint。如果Master挂了可用CheckPoint启动另一Master
+
+失效处理机制：保证用户提供输入确定函数时，在任何情况下（各种失效）的输出都和没有出现任何错误，且顺序执
+行产生的输出是一样的。通过依赖对Map和Reduce任务的输出是原子提交来完成这个特性
+</code></pre></li>
+</ul>
+<p>###单词计数</p>
+<p><img src="/images/MapReduceExample.png" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">/* Mapper类实现</span><br><span class="line"> * KEYIN：输入kv数据对中key的数据类型</span><br><span class="line"> * VALUEIN：输入kv数据对中value的数据类型</span><br><span class="line"> * KEYOUT：输出kv数据对中key的数据类型</span><br><span class="line"> * VALUEOUT：输出kv数据对中value的数据类型</span><br><span class="line"> */</span><br><span class="line">public class WordCountMapper extends Mapper&lt;LongWritable, Text, Text, IntWritable&gt;&#123;</span><br><span class="line">	</span><br><span class="line">	/*</span><br><span class="line">	 * map方法是提供给map task进程来调用的，map task进程是每读取一行文本来调用一次我们自定义的map方法</span><br><span class="line">	 * map task在调用map方法时，传递的参数：</span><br><span class="line">	 * 		一行的起始偏移量LongWritable作为key</span><br><span class="line">	 * 		一行的文本内容Text作为value</span><br><span class="line">	 */</span><br><span class="line">	@Override</span><br><span class="line">	protected void map(LongWritable key, Text value,Context context) throws IOException, InterruptedException &#123;</span><br><span class="line">		//拿到一行文本内容，转换成String 类型</span><br><span class="line">		String line = value.toString();</span><br><span class="line">		//将这行文本切分成单词</span><br><span class="line">		String[] words=line.split(&quot; &quot;);</span><br><span class="line">		</span><br><span class="line">		//输出&lt;单词，1&gt;</span><br><span class="line">		for(String word:words)&#123;</span><br><span class="line">			context.write(new Text(word), new IntWritable(1));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">/* Reducer类实现</span><br><span class="line"> * KEYIN：对应mapper阶段输出的key类型</span><br><span class="line"> * VALUEIN：对应mapper阶段输出的value类型</span><br><span class="line"> * KEYOUT：reduce处理完之后输出的结果kv对中key的类型</span><br><span class="line"> * VALUEOUT：reduce处理完之后输出的结果kv对中value的类型</span><br><span class="line"> */</span><br><span class="line">public class WordCountReducer extends Reducer&lt;Text, IntWritable, Text, IntWritable&gt;&#123;</span><br><span class="line">	@Override</span><br><span class="line">	/*</span><br><span class="line">	 * reduce方法提供给reduce task进程来调用</span><br><span class="line">	 * </span><br><span class="line">	 * reduce task会将shuffle阶段分发过来的大量kv数据对进行聚合，聚合的机制是相同key的kv对聚合为一组</span><br><span class="line">	 * 然后reduce task对每一组聚合kv调用一次我们自定义的reduce方法</span><br><span class="line">	 * 比如：&lt;hello,1&gt;&lt;hello,1&gt;&lt;hello,1&gt;&lt;tom,1&gt;&lt;tom,1&gt;&lt;tom,1&gt;</span><br><span class="line">	 *  hello组会调用一次reduce方法进行处理，tom组也会调用一次reduce方法进行处理</span><br><span class="line">	 *  调用时传递的参数：</span><br><span class="line">	 *  		key：一组kv中的key</span><br><span class="line">	 *  		values：一组kv中所有value的迭代器</span><br><span class="line">	 */</span><br><span class="line">	protected void reduce(Text key, Iterable&lt;IntWritable&gt; values,Context context) throws IOException, InterruptedException &#123;</span><br><span class="line">		//定义一个计数器</span><br><span class="line">		int count = 0;</span><br><span class="line">		//通过value这个迭代器，遍历这一组kv中所有的value，进行累加</span><br><span class="line">		for(IntWritable value:values)&#123;</span><br><span class="line">			count+=value.get();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		//输出这个单词的统计结果</span><br><span class="line">		context.write(key, new IntWritable(count));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">public class WordCountJobSubmitter &#123;</span><br><span class="line">	</span><br><span class="line">	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException &#123;</span><br><span class="line">		Configuration conf = new Configuration();</span><br><span class="line">		Job wordCountJob = Job.getInstance(conf);</span><br><span class="line">		</span><br><span class="line">		//重要：指定本job所在的jar包</span><br><span class="line">		wordCountJob.setJarByClass(WordCountJobSubmitter.class);</span><br><span class="line">		</span><br><span class="line">		//设置wordCountJob所用的mapper逻辑类为哪个类</span><br><span class="line">		wordCountJob.setMapperClass(WordCountMapper.class);</span><br><span class="line">		//设置wordCountJob所用的reducer逻辑类为哪个类</span><br><span class="line">		wordCountJob.setReducerClass(WordCountReducer.class);</span><br><span class="line">		</span><br><span class="line">		//设置map阶段输出的kv数据类型</span><br><span class="line">		wordCountJob.setMapOutputKeyClass(Text.class);</span><br><span class="line">		wordCountJob.setMapOutputValueClass(IntWritable.class);</span><br><span class="line">		</span><br><span class="line">		//设置最终输出的kv数据类型</span><br><span class="line">		wordCountJob.setOutputKeyClass(Text.class);</span><br><span class="line">		wordCountJob.setOutputValueClass(IntWritable.class);</span><br><span class="line">		</span><br><span class="line">		//设置要处理的文本数据所存放的路径</span><br><span class="line">		FileInputFormat.setInputPaths(wordCountJob, &quot;hdfs://192.168.77.70:9000/wordcount/srcdata/&quot;);</span><br><span class="line">		FileOutputFormat.setOutputPath(wordCountJob, new Path(&quot;hdfs://192.168.77.70:9000/wordcount/output/&quot;));</span><br><span class="line">		</span><br><span class="line">		//提交job给hadoop集群</span><br><span class="line">		wordCountJob.waitForCompletion(true);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/08/test/" rel="next" title="test">
+                <i class="fa fa-chevron-left"></i> test
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Hanjie WU" />
+            
+              <p class="site-author-name" itemprop="name">Hanjie WU</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/cshanjiewu" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:cshanjiewu@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#大数据与大计算——Hadoop和MapReduce"><span class="nav-number">1.</span> <span class="nav-text">大数据与大计算——Hadoop和MapReduce</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hadoop基础"><span class="nav-number">1.1.</span> <span class="nav-text">Hadoop基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hadoop组成"><span class="nav-number">1.1.1.</span> <span class="nav-text">Hadoop组成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HDFS读取文件"><span class="nav-number">1.1.2.</span> <span class="nav-text">HDFS读取文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HDFS写入文件"><span class="nav-number">1.1.3.</span> <span class="nav-text">HDFS写入文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#YARN"><span class="nav-number">1.1.4.</span> <span class="nav-text">YARN</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MapReduce计算框架"><span class="nav-number">1.2.</span> <span class="nav-text">MapReduce计算框架</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hanjie WU</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
