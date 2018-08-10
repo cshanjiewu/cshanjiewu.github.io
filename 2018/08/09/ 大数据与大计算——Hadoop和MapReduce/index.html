@@ -7,7 +7,7 @@
 
 <html class="theme-next pisces use-motion" lang="">
 <head>
-  <meta charset="UTF-8"/>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 <meta name="theme-color" content="#222">
@@ -134,7 +134,7 @@
 
 
 
-  <title>大数据与大计算——Hadoop和MapReduce | Hanjie's Blog</title>
+  <title>大数据与大计算——Hadoop和MapReduce | Hanjie's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -153,7 +153,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -358,30 +358,30 @@
 <p>（2） 应用程序管理器<br>应用程序管理器负责管理整个系统中所有应用程序，包括应用程序提交、与调度器协商资源以启动ApplicationMaster、监控ApplicationMaster运行状态并在失败时重新启动它等。</p>
 <p>2、ApplicationMaster（AM）<br>       管理YARN内运行的应用程序的每个实例。</p>
 <p>功能：</p>
-<pre><code>数据切分
+<pre><code> 数据切分
 
-为应用程序申请资源并进一步分配给内部任务。
+ 为应用程序申请资源并进一步分配给内部任务。
 
-任务监控与容错
+ 任务监控与容错
 </code></pre><p>负责协调来自resourcemanager的资源，并通过nodemanager监视容易的执行和资源使用情况。</p>
 <p>3、NodeManager（NM）<br>Nodemanager整个集群有多个，负责每个节点上的资源和使用。</p>
 <p>功能：</p>
-<pre><code>单个节点上的资源管理和任务。
+<pre><code>   单个节点上的资源管理和任务。
 
-处理来自于resourcemanager的命令。
+   处理来自于resourcemanager的命令。
 
-处理来自域app master的命令。
+   处理来自域app master的命令。
 </code></pre><p>Nodemanager管理着抽象容器，这些抽象容器代表着一些特定程序使用针对每个节点的资源。</p>
 <p>Nodemanager定时地向RM汇报本节点上的资源使用情况和各个Container的运行状态（cpu和内存等资源）</p>
 <p>4、Container<br>Container是YARN中的资源抽象，它封装了某个节点上的多维度资源，如内存、CPU、磁盘、网络等，当Aner，且该任务只能使用该Container中描述的资源。</p>
 <p>功能：</p>
-<pre><code>对task环境的抽象
+<pre><code>    对task环境的抽象
 
-描述一系列信息
+    描述一系列信息
 
-任务运行资源的集合（cpu、内存、io等）
+    任务运行资源的集合（cpu、内存、io等）
 
-任务运行环境
+    任务运行环境
 </code></pre><hr>
 <h2 id="MapReduce计算框架"><a href="#MapReduce计算框架" class="headerlink" title="MapReduce计算框架"></a>MapReduce计算框架</h2><p>抽象模型设计的灵感来自于函数式语言的Map和Reduce原语</p>
 <pre><code>- Map：对输入数据应用Map操作得出一个中间&lt;key, value&gt;对集合
@@ -395,24 +395,24 @@
 </ul>
 <p>a、用户调用MapReduce库将输入文件分为M个数据片段（即split，一般为16~64MB）</p>
 <p>b、用户程序有一个Master（即JobTracker ），其他都为Worker（即TaskTracker），由Master负责任务分配。</p>
-<p>c、被分配了Map任务的Map Worker读取数据片段，将其解析出&lt;key, value&gt;对传递给用户map函数处理，最后输出中间&lt;key, value&gt;对到内存</p>
-<p>d、缓存的&lt;key, value&gt;对通过分区函数分成R个分区，周期性写入本地磁盘，并将位置信息上传给Master。Master再将这些存储位置传给Reduce Worker</p>
-<p>e、Reduce Worker接收到信息后，使用RPC将落地的&lt;key, value&gt;对读取到本地，对Key排序后聚合相同Key值的数据，然后将&lt; key, list &lt; value > >对传递给用户reduce函数处理，最后输出到所属分区的输出文件（故最终的MapReduce输出为R个文件）</p>
+<p>c、被分配了Map任务的Map Worker读取数据片段，将其解析出<key, value="">对传递给用户map函数处理，最后输出中间<key, value="">对到内存</key,></key,></p>
+<p>d、缓存的<key, value="">对通过分区函数分成R个分区，周期性写入本地磁盘，并将位置信息上传给Master。Master再将这些存储位置传给Reduce Worker</key,></p>
+<p>e、Reduce Worker接收到信息后，使用RPC将落地的<key, value="">对读取到本地，对Key排序后聚合相同Key值的数据，然后将&lt; key, list &lt; value > >对传递给用户reduce函数处理，最后输出到所属分区的输出文件（故最终的MapReduce输出为R个文件）</key,></p>
 <ul>
 <li><p>Worker容灾</p>
-<pre><code>Master周期性Ping每个Worker维持心跳，约定时间内没收到返回信息则将Worker标为失效
+<pre><code>  Master周期性Ping每个Worker维持心跳，约定时间内没收到返回信息则将Worker标为失效
 
-对于失效的Map Worker：Map任务输出到本机，已不可访问，故需重新执行
+  对于失效的Map Worker：Map任务输出到本机，已不可访问，故需重新执行
 
-对于失效的Reduce Worker：Reduce任务输出到全局文件系统，故不许重新执行
+  对于失效的Reduce Worker：Reduce任务输出到全局文件系统，故不许重新执行
 
-MapReduce可以处理大规模Worker失效的情况，最多只需简单重新执行失效Worker未完成的任务
+  MapReduce可以处理大规模Worker失效的情况，最多只需简单重新执行失效Worker未完成的任务
 </code></pre></li>
 <li><p>Master容灾</p>
-<pre><code>一个简单的方法为Master周期性将上面的数据结构落地，即检查点CheckPoint。如果Master挂了可用CheckPoint启动另一Master
+<pre><code>  一个简单的方法为Master周期性将上面的数据结构落地，即检查点CheckPoint。如果Master挂了可用CheckPoint启动另一Master
 
-失效处理机制：保证用户提供输入确定函数时，在任何情况下（各种失效）的输出都和没有出现任何错误，且顺序执
-行产生的输出是一样的。通过依赖对Map和Reduce任务的输出是原子提交来完成这个特性
+  失效处理机制：保证用户提供输入确定函数时，在任何情况下（各种失效）的输出都和没有出现任何错误，且顺序执
+  行产生的输出是一样的。通过依赖对Map和Reduce任务的输出是原子提交来完成这个特性
 </code></pre></li>
 </ul>
 <h3 id="单词计数"><a href="#单词计数" class="headerlink" title="单词计数"></a>单词计数</h3><p><img src="/images/MapReduceExample.png" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">/* Mapper类实现</span><br><span class="line"> * KEYIN：输入kv数据对中key的数据类型</span><br><span class="line"> * VALUEIN：输入kv数据对中value的数据类型</span><br><span class="line"> * KEYOUT：输出kv数据对中key的数据类型</span><br><span class="line"> * VALUEOUT：输出kv数据对中value的数据类型</span><br><span class="line"> */</span><br><span class="line">public class WordCountMapper extends Mapper&lt;LongWritable, Text, Text, IntWritable&gt;&#123;</span><br><span class="line">	</span><br><span class="line">	/*</span><br><span class="line">	 * map方法是提供给map task进程来调用的，map task进程是每读取一行文本来调用一次我们自定义的map方法</span><br><span class="line">	 * map task在调用map方法时，传递的参数：</span><br><span class="line">	 * 		一行的起始偏移量LongWritable作为key</span><br><span class="line">	 * 		一行的文本内容Text作为value</span><br><span class="line">	 */</span><br><span class="line">	@Override</span><br><span class="line">	protected void map(LongWritable key, Text value,Context context) throws IOException, InterruptedException &#123;</span><br><span class="line">		//拿到一行文本内容，转换成String 类型</span><br><span class="line">		String line = value.toString();</span><br><span class="line">		//将这行文本切分成单词</span><br><span class="line">		String[] words=line.split(&quot; &quot;);</span><br><span class="line">		</span><br><span class="line">		//输出&lt;单词，1&gt;</span><br><span class="line">		for(String word:words)&#123;</span><br><span class="line">			context.write(new Text(word), new IntWritable(1));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -742,7 +742,7 @@ MapReduce可以处理大规模Worker失效的情况，最多只需简单重新�
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
 
