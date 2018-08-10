@@ -79,19 +79,20 @@
 
 
 
-<meta name="description" content="计算机视觉概述 计算机视觉研究相关的理论和技术，试图创建能够从图像或者多维数据中获取“信息”的人工智能系统。这里所指的信息指香农定义的，可以用来帮助做一个“决定”的信息。因为感知可以看作是从感官信号中提取信息，所以计算机视觉也可以看作是研究如何使人工系统从图像或多维数据中“感知”的科学。                                      ——————————维基百科  主要">
+<meta name="description" content="图像预处理图像显示和存储&amp;lt;img src=/images/rgb.png width=50% height=50%/&amp;gt;RGB颜色空间，R-红色、G-绿色、B-蓝色，采用加法混色（越加越亮），取值范围[0,255]、[0.0,1.0]，应用于彩色显示器。&amp;lt;img src=/images/cmyk.png width=50% height=50%/&amp;gt;  CMYK颜色空间，C-青">
 <meta property="og:type" content="article">
-<meta property="og:title" content="计算机视觉概述">
-<meta property="og:url" content="http://yoursite.com/2018/08/10/计算机视觉概述/index.html">
+<meta property="og:title" content="图像预处理">
+<meta property="og:url" content="http://yoursite.com/2018/08/10/图像预处理/index.html">
 <meta property="og:site_name" content="Hanjie&#39;s Blog">
-<meta property="og:description" content="计算机视觉概述 计算机视觉研究相关的理论和技术，试图创建能够从图像或者多维数据中获取“信息”的人工智能系统。这里所指的信息指香农定义的，可以用来帮助做一个“决定”的信息。因为感知可以看作是从感官信号中提取信息，所以计算机视觉也可以看作是研究如何使人工系统从图像或多维数据中“感知”的科学。                                      ——————————维基百科  主要">
+<meta property="og:description" content="图像预处理图像显示和存储&amp;lt;img src=/images/rgb.png width=50% height=50%/&amp;gt;RGB颜色空间，R-红色、G-绿色、B-蓝色，采用加法混色（越加越亮），取值范围[0,255]、[0.0,1.0]，应用于彩色显示器。&amp;lt;img src=/images/cmyk.png width=50% height=50%/&amp;gt;  CMYK颜色空间，C-青">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/images/cv.png">
-<meta property="og:updated_time" content="2018-08-10T07:36:05.927Z">
+<meta property="og:image" content="http://yoursite.com/images/method.png">
+<meta property="og:image" content="http://yoursite.com/images/junhenghua.jpg">
+<meta property="og:updated_time" content="2018-08-10T14:33:47.906Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="计算机视觉概述">
-<meta name="twitter:description" content="计算机视觉概述 计算机视觉研究相关的理论和技术，试图创建能够从图像或者多维数据中获取“信息”的人工智能系统。这里所指的信息指香农定义的，可以用来帮助做一个“决定”的信息。因为感知可以看作是从感官信号中提取信息，所以计算机视觉也可以看作是研究如何使人工系统从图像或多维数据中“感知”的科学。                                      ——————————维基百科  主要">
-<meta name="twitter:image" content="http://yoursite.com/images/cv.png">
+<meta name="twitter:title" content="图像预处理">
+<meta name="twitter:description" content="图像预处理图像显示和存储&amp;lt;img src=/images/rgb.png width=50% height=50%/&amp;gt;RGB颜色空间，R-红色、G-绿色、B-蓝色，采用加法混色（越加越亮），取值范围[0,255]、[0.0,1.0]，应用于彩色显示器。&amp;lt;img src=/images/cmyk.png width=50% height=50%/&amp;gt;  CMYK颜色空间，C-青">
+<meta name="twitter:image" content="http://yoursite.com/images/method.png">
 
 
 
@@ -121,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/08/10/计算机视觉概述/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/08/10/图像预处理/"/>
 
 
 
 
 
-  <title>计算机视觉概述 | Hanjie's Blog</title>
+  <title>图像预处理 | Hanjie's Blog</title>
   
 
 
@@ -234,7 +235,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/10/计算机视觉概述/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/10/图像预处理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Hanjie WU">
@@ -251,7 +252,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">计算机视觉概述</h1>
+          <h1 class="post-title" itemprop="name headline">图像预处理</h1>
         
 
         <div class="post-meta">
@@ -263,7 +264,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-10T02:36:31+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-10T15:36:16+08:00">
                 2018-08-10
               </time>
             
@@ -301,20 +302,22 @@
       
 
       
-        <h1 id="计算机视觉概述"><a href="#计算机视觉概述" class="headerlink" title="计算机视觉概述"></a>计算机视觉概述</h1><blockquote>
-<p>计算机视觉研究相关的理论和技术，试图创建能够从图像或者多维数据中获取“信息”的人工智能系统。这里所指的信息指香农定<br>义的，可以用来帮助做一个“决定”的信息。因为感知可以看作是从感官信号中提取信息，所以计算机视觉也可以看作是研究如何使人工系统从图像或多维数据中“感知”的科学。                                      ——————————维基百科</p>
-</blockquote>
-<h2 id="主要研究领域"><a href="#主要研究领域" class="headerlink" title="主要研究领域"></a>主要研究领域</h2><p><img src="/images/cv.png" alt=""></p>
-<h2 id="研究挑战"><a href="#研究挑战" class="headerlink" title="研究挑战"></a>研究挑战</h2><ul>
-<li>视角变化</li>
-<li>光照变化</li>
-<li>尺度变化</li>
-<li>形态变化</li>
-<li>背景混淆干扰</li>
-<li>遮挡</li>
-<li>同一类物体的外观差异</li>
-</ul>
+        <h1 id="图像预处理"><a href="#图像预处理" class="headerlink" title="图像预处理"></a>图像预处理</h1><h2 id="图像显示和存储"><a href="#图像显示和存储" class="headerlink" title="图像显示和存储"></a>图像显示和存储</h2><div align="center"><br>&lt;img src=/images/rgb.png width=50% height=50%/&gt;<br></div><br><img src="" alt=""><br><br>RGB颜色空间，R-红色、G-绿色、B-蓝色，采用加法混色（越加越亮），取值范围[0,255]、[0.0,1.0]，应用于彩色显示器。<br><br><div align="center"><br>&lt;img src=/images/cmyk.png width=50% height=50%/&gt;<br></div>
 
+<p>CMYK颜色空间，C-青色、M-品红色、Y-黄色、K-黑色，采用减法混色，取值范围[0,255]、[0.0,1.0]，应用于印刷。</p>
+<div align="center"><br>&lt;img src=/images/hsv.jpg width=50% height=50%/&gt;<br></div>
+
+<p>HSV颜色空间，色调（H），饱和度（S），明度（V），应用于Photoshop等软件中。</p>
+<p>图像存储，主流采用RGB颜色空间，图片存储为三维矩阵。常见的存储图片格式，BMP：不采用任何压缩的无损存储。JPG有损压缩。GIF基于LZW算法的无损压缩格式。PNG能提供比GIF小的无损压缩格式。</p>
+<h2 id="图像处理方法"><a href="#图像处理方法" class="headerlink" title="图像处理方法"></a>图像处理方法</h2><p><img src="/images/method.png" alt=""></p>
+<h3 id="直方图均衡化"><a href="#直方图均衡化" class="headerlink" title="直方图均衡化"></a>直方图均衡化</h3><p><div align="center"><br><img src="/images/junhenghua.jpg" alt=""><br></div></p>
+<ul>
+<li>直方图是以灰度取值为横轴，以图像中出现的灰度值的个数为纵轴的图。表示的是图像中灰度分布。均衡化是指将原图的灰度分布在一个更大的范围（通过定义的均衡化函数将图像中的每个像素的值进行映射），但不改变原图中各个像素的灰度的相对大小（即变成均分分布的直方图）。均衡化后会是图像的明暗更加明显（即增加了图像的对比度）</li>
+<li>映射函数必须满足：（1）单调递增函数，为了保证变换后不会打乱原图的灰度大小排序。 （2）映射后的值域保证和映射前的一样。</li>
+</ul>
+<h3 id="直方图均衡化方法——累积分布函数"><a href="#直方图均衡化方法——累积分布函数" class="headerlink" title="直方图均衡化方法——累积分布函数"></a>直方图均衡化方法——累积分布函数</h3><pre><code>1. 对原始图像的灰度情况进行统计分析，并计算出原始直方图分布。（自定义横轴有多少灰度等级）
+2. 计算出各个灰度级别的累积分布直方图，利用公式：$s_k = \sum_{j = 0}^k$
+</code></pre>
       
     </div>
     
@@ -338,8 +341,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/09/ 大数据与大计算——Hadoop和MapReduce/" rel="next" title="大数据与大计算——Hadoop和MapReduce">
-                <i class="fa fa-chevron-left"></i> 大数据与大计算——Hadoop和MapReduce
+              <a href="/2018/08/10/计算机视觉概述/" rel="next" title="计算机视觉概述">
+                <i class="fa fa-chevron-left"></i> 计算机视觉概述
               </a>
             
           </div>
@@ -347,10 +350,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/10/图像预处理/" rel="prev" title="图像预处理">
-                图像预处理 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -484,7 +483,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#计算机视觉概述"><span class="nav-number">1.</span> <span class="nav-text">计算机视觉概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#主要研究领域"><span class="nav-number">1.1.</span> <span class="nav-text">主要研究领域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#研究挑战"><span class="nav-number">1.2.</span> <span class="nav-text">研究挑战</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#图像预处理"><span class="nav-number">1.</span> <span class="nav-text">图像预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#图像显示和存储"><span class="nav-number">1.1.</span> <span class="nav-text">图像显示和存储</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图像处理方法"><span class="nav-number">1.2.</span> <span class="nav-text">图像处理方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直方图均衡化"><span class="nav-number">1.2.1.</span> <span class="nav-text">直方图均衡化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#直方图均衡化方法——累积分布函数"><span class="nav-number">1.2.2.</span> <span class="nav-text">直方图均衡化方法——累积分布函数</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
