@@ -91,7 +91,12 @@
 <meta property="og:image" content="http://yoursite.com/images/hsv.jpg">
 <meta property="og:image" content="http://yoursite.com/images/method.png">
 <meta property="og:image" content="http://yoursite.com/images/junhenghua.jpg">
-<meta property="og:updated_time" content="2018-08-11T02:26:01.068Z">
+<meta property="og:image" content="http://yoursite.com/images/clahe_cut.jpg">
+<meta property="og:image" content="http://yoursite.com/images/clahe_example.png">
+<meta property="og:image" content="http://yoursite.com/images/clahe_chazhi.png">
+<meta property="og:image" content="http://yoursite.com/images/clahe_example2.png">
+<meta property="og:image" content="http://yoursite.com/images/conv.png">
+<meta property="og:updated_time" content="2018-08-11T08:11:36.058Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="图像预处理">
 <meta name="twitter:description" content="图像预处理图像显示和存储     RGB颜色空间，R-红色、G-绿色、B-蓝色，采用加法混色（越加越亮），取值范围[0,255]、[0.0,1.0]，应用于彩色显示器。     CMYK颜色空间，C-青色、M-品红色、Y-黄色、K-黑色，采用减法混色，取值范围[0,255]、[0.0,1.0]，应用于印刷。     HSV颜色空间，色调（H），饱和度（S），明度（V），应用于Photoshop等软">
@@ -330,9 +335,37 @@
 <li>直方图是以灰度取值为横轴，以图像中出现的灰度值的个数为纵轴的图。表示的是图像中灰度分布。均衡化是指将原图的灰度分布在一个更大的范围（通过定义的均衡化函数将图像中的每个像素的值进行映射），但不改变原图中各个像素的灰度的相对大小（即变成均分分布的直方图）。均衡化后会是图像的明暗更加明显（即增加了图像的对比度）</li>
 <li>映射函数必须满足：（1）单调递增函数，为了保证变换后不会打乱原图的灰度大小排序。 （2）映射后的值域保证和映射前的一样。</li>
 </ul>
-<h3 id="直方图均衡化方法——累积分布函数"><a href="#直方图均衡化方法——累积分布函数" class="headerlink" title="直方图均衡化方法——累积分布函数"></a>直方图均衡化方法——累积分布函数</h3><pre><code>    1. 对原始图像的灰度情况进行统计分析，并计算出原始直方图分布。（自定义横轴有多少灰度等级）
-    2. 计算出各个灰度级别的累积分布直方图，利用公式：
-</code></pre><p>  $ s_k = \sum_{j = 0}^k $</p>
+<h4 id="直方图均衡化方法——累积分布函数"><a href="#直方图均衡化方法——累积分布函数" class="headerlink" title="直方图均衡化方法——累积分布函数"></a>直方图均衡化方法——累积分布函数</h4><ol>
+<li>对原始图像的灰度情况进行统计分析，并计算出原始直方图分布。（自定义横轴有多少灰度等级）</li>
+<li>计算出各个灰度级别的累积分布直方图，映射方法：$s_w = \sum_{j=0}^k \frac{n_j}{n}$ k=0,1,2,3…L-1,其中$n_k$为当前灰度级的像素个数，n表示图像中全部像素总和，L为可能的灰度级的分级个数</li>
+<li>根据计算出的累积直方图，计算原像素通过映射后的灰度级，对原图像中的每一个像素点都进行映射。即用在每个原灰度级上的累加分布$s_k$ * （L - 1）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">%直方图均衡化</span><br><span class="line">I = imread(&apos;rice.png&apos;);</span><br><span class="line">[height,width] = size(I);</span><br><span class="line">figure</span><br><span class="line">subplot(221)</span><br><span class="line">imshow(I)%显示原始图像</span><br><span class="line">subplot(222)</span><br><span class="line">imhist(I)%显示原始图像直方图</span><br><span class="line"></span><br><span class="line">%进行像素灰度统计;</span><br><span class="line">NumPixel = zeros(1,256);%统计各灰度数目，共256个灰度级</span><br><span class="line">for i = 1:height</span><br><span class="line">    for j = 1: width</span><br><span class="line">        NumPixel(I(i,j) + 1) = NumPixel(I(i,j) + 1) + 1;%对应灰度值像素点数量增加一</span><br><span class="line">    end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">%计算灰度分布密度</span><br><span class="line">ProbPixel = zeros(1,256);</span><br><span class="line">for i = 1:256</span><br><span class="line">    ProbPixel(i) = NumPixel(i) / (height * width * 1.0);</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">%计算累计直方图分布</span><br><span class="line">CumuPixel = zeros(1,256);</span><br><span class="line">for i = 1:256</span><br><span class="line">    if i == 1</span><br><span class="line">        CumuPixel(i) = ProbPixel(i);</span><br><span class="line">    else</span><br><span class="line">         CumuPixel(i) = CumuPixel(i - 1) + ProbPixel(i);</span><br><span class="line">    end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">%累计分布取整</span><br><span class="line">CumuPixel = uint8(255 .* CumuPixel + 0.5);</span><br><span class="line"></span><br><span class="line">%对灰度值进行映射（均衡化）</span><br><span class="line">for i = 1:height</span><br><span class="line">     for j = 1: width</span><br><span class="line">         I(i,j) = CumuPixel(I(i,j));</span><br><span class="line">     end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">subplot(223)</span><br><span class="line">imshow(I)%显示原始图像</span><br><span class="line">subplot(224)</span><br><span class="line">imhist(I)%显示原始图像直方图</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="自适应直方图均衡化（AHE）"><a href="#自适应直方图均衡化（AHE）" class="headerlink" title="自适应直方图均衡化（AHE）"></a>自适应直方图均衡化（AHE）</h4><p>直方图均衡经典算法（上面的算法）对整幅图像的像素使用相同的变换，对于像素值分布比较均衡的图像来说，经典算法的效果不错。但是如果图像中包括明显亮的或者暗的区域，在这些部分的对比度并不能得到增强。<br>AHE算法通过对局部区域的直方图均衡解决上述问题。最简单的形式就是每个像素通过对其周边一个矩形范围内像素的直方图进行均衡化，均衡的方式使用普通的均衡化算法，变换函数同像素周边的累积分布函数成比例。<br>局部直方图处理的三种方式：</p>
+<ul>
+<li>将原始图片划分成不重叠的子块，在每个子块内做直方图处理，该方法简单但输出图像会有块效应；</li>
+<li>类似模板卷积的方式，以待处理的点为中心，取其邻域为子块，在子块内做直方图处理，处理结果仅映射到该点可以消除块效应，但需要对每个点计算一次直方图处理，效率低；</li>
+<li>前两种方法的结合版，不再逐像素移动，步长小于子块宽度以确保两个相邻子块有重叠；每个子块做直方图映射后的结果赋值给子块内所有点，这样每个点会有多次赋值，最终的取值为这些赋值的均值；</li>
+</ul>
+<h4 id="限制对比度自适应直方图均衡（CLAHE）"><a href="#限制对比度自适应直方图均衡（CLAHE）" class="headerlink" title="限制对比度自适应直方图均衡（CLAHE）"></a>限制对比度自适应直方图均衡（CLAHE）</h4><p>由于AHE会过度放大图像中相对均匀区域的噪音，CLAHE在局部直方图均衡化（又称自适应直方图均衡化AHE）的基础上，对每个子块直方图做了限制，很好的控制了AHE带来的噪声。<br>算法过程：</p>
+<ol>
+<li>图像分块，以块为单位，先计算直方图，然后修剪直方图，最后均衡。裁剪阀值为人工设置。<br><img src="/images/clahe_cut.jpg" alt=""><br><img src="/images/clahe_example.png" alt=""></li>
+<li>块间线性插值，这里需要遍历、操作各个图像块，处理起来复杂一些<br><img src="/images/clahe_chazhi.png" alt=""><br><img src="/images/clahe_example2.png" alt=""></li>
+<li>与原图做图层滤色混合操作：f(a, b) = 1 - (1 - a)*(1 - b)</li>
+</ol>
+<h3 id="滤波-卷积"><a href="#滤波-卷积" class="headerlink" title="滤波/卷积"></a>滤波/卷积</h3><p><img src="/images/conv.png" alt=""><br>在每个位置上进行基于领域的函数计算，卷积核和对应图像区域的对应像素位置相乘最后相加得到的值，作为该对应位置中心卷积后的值。<br>卷积核大小、步长、边界填充值和卷积后图像大小的关系：</p>
+<script type="math/tex; mode=display">W' = \frac{(W-F+2P)}{S} + 1</script><p>其中W’为输出图像的尺寸，W为输入图像的尺寸，F为卷积核的大小，P为边界填充值</p>
+<h4 id="滤波类型"><a href="#滤波类型" class="headerlink" title="滤波类型"></a>滤波类型</h4><ul>
+<li>均值滤波，用卷积窗口内的平均值代替窗口中心点的像素值。不能有效的去除噪声，并且会使图像模糊。</li>
+<li>中值滤波，将卷积窗口内的值排序，用排序后的中值作为窗口中心点的像素值。保留边缘特性。</li>
+<li>高斯滤波，窗口中心输出是领域元素加权求和的结果，离中心越近的元素的权重越高。</li>
+<li>Prewitt算子</li>
+<li>Sobel算子</li>
+</ul>
+<h4 id="提高卷积运算速度"><a href="#提高卷积运算速度" class="headerlink" title="提高卷积运算速度"></a>提高卷积运算速度</h4><ol>
+<li>卷积分解</li>
+<li>傅里叶变换，空间域的卷积等于频域的乘积</li>
+</ol>
 
       
     </div>
@@ -499,7 +532,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#图像预处理"><span class="nav-number">1.</span> <span class="nav-text">图像预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#图像显示和存储"><span class="nav-number">1.1.</span> <span class="nav-text">图像显示和存储</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图像处理方法"><span class="nav-number">1.2.</span> <span class="nav-text">图像处理方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直方图均衡化"><span class="nav-number">1.2.1.</span> <span class="nav-text">直方图均衡化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#直方图均衡化方法——累积分布函数"><span class="nav-number">1.2.2.</span> <span class="nav-text">直方图均衡化方法——累积分布函数</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#图像预处理"><span class="nav-number">1.</span> <span class="nav-text">图像预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#图像显示和存储"><span class="nav-number">1.1.</span> <span class="nav-text">图像显示和存储</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图像处理方法"><span class="nav-number">1.2.</span> <span class="nav-text">图像处理方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直方图均衡化"><span class="nav-number">1.2.1.</span> <span class="nav-text">直方图均衡化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#直方图均衡化方法——累积分布函数"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">直方图均衡化方法——累积分布函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自适应直方图均衡化（AHE）"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">自适应直方图均衡化（AHE）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#限制对比度自适应直方图均衡（CLAHE）"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">限制对比度自适应直方图均衡（CLAHE）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#滤波-卷积"><span class="nav-number">1.2.2.</span> <span class="nav-text">滤波/卷积</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#滤波类型"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">滤波类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#提高卷积运算速度"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">提高卷积运算速度</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>
