@@ -79,19 +79,22 @@
 
 
 
-<meta name="description" content="图像预处理图像显示和存储     RGB颜色空间，R-红色、G-绿色、B-蓝色，采用加法混色（越加越亮），取值范围[0,255]、[0.0,1.0]，应用于彩色显示器。  ![](/images/cmyk.jpg)   CMYK颜色空间，C-青色、M-品红色、Y-黄色、K-黑色，采用减法混色，取值范围[0,255]、[0.0,1.0]，应用于印刷。  ![](/images/hsv.jpg)">
+<meta name="description" content="图像预处理图像显示和存储     RGB颜色空间，R-红色、G-绿色、B-蓝色，采用加法混色（越加越亮），取值范围[0,255]、[0.0,1.0]，应用于彩色显示器。     CMYK颜色空间，C-青色、M-品红色、Y-黄色、K-黑色，采用减法混色，取值范围[0,255]、[0.0,1.0]，应用于印刷。     HSV颜色空间，色调（H），饱和度（S），明度（V），应用于Photoshop等软">
 <meta property="og:type" content="article">
 <meta property="og:title" content="图像预处理">
 <meta property="og:url" content="http://yoursite.com/2018/08/10/图像预处理/index.html">
 <meta property="og:site_name" content="Hanjie&#39;s Blog">
-<meta property="og:description" content="图像预处理图像显示和存储     RGB颜色空间，R-红色、G-绿色、B-蓝色，采用加法混色（越加越亮），取值范围[0,255]、[0.0,1.0]，应用于彩色显示器。  ![](/images/cmyk.jpg)   CMYK颜色空间，C-青色、M-品红色、Y-黄色、K-黑色，采用减法混色，取值范围[0,255]、[0.0,1.0]，应用于印刷。  ![](/images/hsv.jpg)">
+<meta property="og:description" content="图像预处理图像显示和存储     RGB颜色空间，R-红色、G-绿色、B-蓝色，采用加法混色（越加越亮），取值范围[0,255]、[0.0,1.0]，应用于彩色显示器。     CMYK颜色空间，C-青色、M-品红色、Y-黄色、K-黑色，采用减法混色，取值范围[0,255]、[0.0,1.0]，应用于印刷。     HSV颜色空间，色调（H），饱和度（S），明度（V），应用于Photoshop等软">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/images/rgb.jpg">
+<meta property="og:image" content="http://yoursite.com/images/cmyk.jpg">
+<meta property="og:image" content="http://yoursite.com/images/hsv.jpg">
 <meta property="og:image" content="http://yoursite.com/images/method.png">
-<meta property="og:updated_time" content="2018-08-11T02:16:45.335Z">
+<meta property="og:image" content="http://yoursite.com/images/junhenghua.jpg">
+<meta property="og:updated_time" content="2018-08-11T02:26:01.068Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="图像预处理">
-<meta name="twitter:description" content="图像预处理图像显示和存储     RGB颜色空间，R-红色、G-绿色、B-蓝色，采用加法混色（越加越亮），取值范围[0,255]、[0.0,1.0]，应用于彩色显示器。  ![](/images/cmyk.jpg)   CMYK颜色空间，C-青色、M-品红色、Y-黄色、K-黑色，采用减法混色，取值范围[0,255]、[0.0,1.0]，应用于印刷。  ![](/images/hsv.jpg)">
+<meta name="twitter:description" content="图像预处理图像显示和存储     RGB颜色空间，R-红色、G-绿色、B-蓝色，采用加法混色（越加越亮），取值范围[0,255]、[0.0,1.0]，应用于彩色显示器。     CMYK颜色空间，C-青色、M-品红色、Y-黄色、K-黑色，采用减法混色，取值范围[0,255]、[0.0,1.0]，应用于印刷。     HSV颜色空间，色调（H），饱和度（S），明度（V），应用于Photoshop等软">
 <meta name="twitter:image" content="http://yoursite.com/images/rgb.jpg">
 
 
@@ -309,19 +312,19 @@
 
 <p>RGB颜色空间，R-红色、G-绿色、B-蓝色，采用加法混色（越加越亮），取值范围[0,255]、[0.0,1.0]，应用于彩色显示器。</p>
 <div align="center">
-![](/images/cmyk.jpg)
+<img src="/images/cmyk.jpg" alt="">
 </div>
 
 <p>CMYK颜色空间，C-青色、M-品红色、Y-黄色、K-黑色，采用减法混色，取值范围[0,255]、[0.0,1.0]，应用于印刷。</p>
 <div align="center">
-![](/images/hsv.jpg)
+<img src="/images/hsv.jpg" alt="">
 </div>
 
 <p>HSV颜色空间，色调（H），饱和度（S），明度（V），应用于Photoshop等软件中。</p>
 <p>图像存储，主流采用RGB颜色空间，图片存储为三维矩阵。常见的存储图片格式，BMP：不采用任何压缩的无损存储。JPG有损压缩。GIF基于LZW算法的无损压缩格式。PNG能提供比GIF小的无损压缩格式。</p>
 <h2 id="图像处理方法"><a href="#图像处理方法" class="headerlink" title="图像处理方法"></a>图像处理方法</h2><p><img src="/images/method.png" alt=""></p>
 <h3 id="直方图均衡化"><a href="#直方图均衡化" class="headerlink" title="直方图均衡化"></a>直方图均衡化</h3><p><div align="center">
-![](/images/junhenghua.jpg)
+<img src="/images/junhenghua.jpg" alt="">
 </div></p>
 <ul>
 <li>直方图是以灰度取值为横轴，以图像中出现的灰度值的个数为纵轴的图。表示的是图像中灰度分布。均衡化是指将原图的灰度分布在一个更大的范围（通过定义的均衡化函数将图像中的每个像素的值进行映射），但不改变原图中各个像素的灰度的相对大小（即变成均分分布的直方图）。均衡化后会是图像的明暗更加明显（即增加了图像的对比度）</li>
