@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Computer Science" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="线性回归模型定义假设一个n维特征的数据样本$X = (x_1,x_2,x_3…x_n)$,y表示对应数据样本的标签（例如房屋总售价）。线性模型表达的是，对于某一个样本$X_i$,它的输出值是其特征的线性组合： f(X_i) = \sum_{m=1}^n w_0 x_0 + w_1 x_1 + w_2 x_2+...+w_m x_m其中$x_0 = 1$，是为了把偏置项$w_0$能写入矩阵表达里。写">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习基本算法总结">
+<meta property="og:url" content="http://yoursite.com/2018/08/11/机器学习基本算法总结/index.html">
+<meta property="og:site_name" content="Hanjie&#39;s Blog">
+<meta property="og:description" content="线性回归模型定义假设一个n维特征的数据样本$X = (x_1,x_2,x_3…x_n)$,y表示对应数据样本的标签（例如房屋总售价）。线性模型表达的是，对于某一个样本$X_i$,它的输出值是其特征的线性组合： f(X_i) = \sum_{m=1}^n w_0 x_0 + w_1 x_1 + w_2 x_2+...+w_m x_m其中$x_0 = 1$，是为了把偏置项$w_0$能写入矩阵表达里。写">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/images/sigmoid.png">
+<meta property="og:image" content="http://yoursite.com/images/svm.jpg">
+<meta property="og:image" content="http://yoursite.com/images/svm_tuidao.png">
+<meta property="og:image" content="http://yoursite.com/images/svm_2.png">
+<meta property="og:image" content="http://yoursite.com/images/svm_3.png">
+<meta property="og:image" content="http://yoursite.com/images/decisionCut.png">
+<meta property="og:updated_time" content="2018-08-14T11:33:32.545Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习基本算法总结">
+<meta name="twitter:description" content="线性回归模型定义假设一个n维特征的数据样本$X = (x_1,x_2,x_3…x_n)$,y表示对应数据样本的标签（例如房屋总售价）。线性模型表达的是，对于某一个样本$X_i$,它的输出值是其特征的线性组合： f(X_i) = \sum_{m=1}^n w_0 x_0 + w_1 x_1 + w_2 x_2+...+w_m x_m其中$x_0 = 1$，是为了把偏置项$w_0$能写入矩阵表达里。写">
+<meta name="twitter:image" content="http://yoursite.com/images/sigmoid.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/11/机器学习基本算法总结/"/>
+
+
+
+
+
+  <title>机器学习基本算法总结 | Hanjie's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hanjie's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Do what you like to do!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/11/机器学习基本算法总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hanjie WU">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hanjie's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">机器学习基本算法总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-11T19:30:51+08:00">
+                2018-08-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h2><h3 id="模型定义"><a href="#模型定义" class="headerlink" title="模型定义"></a>模型定义</h3><p>假设一个n维特征的数据样本$X = (x_1,x_2,x_3…x_n)$,y表示对应数据样本的标签（例如房屋总售价）。线性模型表达的是，对于某一个样本$X_i$,它的输出值是其特征的线性组合：</p>
+<script type="math/tex; mode=display">f(X_i) = \sum_{m=1}^n w_0 x_0 + w_1 x_1 + w_2 x_2+...+w_m x_m</script><p>其中$x_0 = 1$，是为了把偏置项$w_0$能写入矩阵表达里。写成矩阵的形式：</p>
+<script type="math/tex; mode=display">X=
+\left[
+\begin{matrix}
+1,x_1^1,x_2^1,...x_n^1 \\\\
+1,x_1^2,x_2^2,...x_n^2 \\\\
+...... \\\\
+1,x_1^n,x_2^n,...x_n^n 
+\end{matrix}
+\right]
+W = 
+\left[
+\begin{matrix}
+w_0 \\\\
+w_1 \\\\
+.... \\\\
+w_n
+\end{matrix}
+\right]
+XW = F_w(x^i)</script><h3 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h3><p>目的是求解出一个使损失函数最小的W，损失函数为：</p>
+<script type="math/tex; mode=display">J(W) = \frac{1}{2M} \sum_{i=0}^M (F_w(x^i) - y^i )^2 = \frac{1}{2} (XW-Y)^T(XW-Y)</script><ol>
+<li>最小二乘法<br>根据最小二乘法的原理，对损失函数的w求导让它等于0：<script type="math/tex; mode=display">\frac{\partial J(W)}{\partial W} = X^T(XW - Y)=0</script>对上述等式整理后可得：<script type="math/tex; mode=display">X^TXW = X^TY</script>两边同时左乘$(X^TX)^{-1}$得：<br>$W = (X^TX)^{-1}X^TY$<br>注：1. 因为最小二乘法需要计算$X^TX$的逆矩阵，当它的逆矩阵不存在时，只能有梯度下降法求解。2. 当样本的特征n很大时，计算逆矩阵是一个非常耗时的工作，此时可以使用梯度下降法（建议超过10000个特征就使用） 3. 最小二乘法只适用于线性。</li>
+<li>梯度下降<br>迭代逐步逼近最优解，找到的最优解可能是局部最优解，但如果损失函数为凸函数，此方法找到的解是全局最优解。<script type="math/tex; mode=display">W = W - \alpha X^T(XW-Y)</script>其中$\alpha$为学习率<br>注：使用梯度下降法时，需要注意参数调优。1. 步长选择，在快递收敛和选择最优解中平衡。2. W初始化的选择，由于局部最优解的风险，有可能需要多次初始化。 3. 样本的不同特征之间的取值范围存在较大差异，导致迭代收敛慢，可以对特征数据归一化。</li>
+</ol>
+<h2 id="Logistic逻辑回归"><a href="#Logistic逻辑回归" class="headerlink" title="Logistic逻辑回归"></a>Logistic逻辑回归</h2><h3 id="模型定义-1"><a href="#模型定义-1" class="headerlink" title="模型定义"></a>模型定义</h3><p>逻辑回归其实仅在线性回归的基础上，加上一个逻辑函数。线性回归输出的Y是连续的，但我们需要做分类模型时，Y是离散的。我们需要对Y再做一次函数转换g(Y)。令g(Y)的值在某个实数区间的时候是类别A，在另一个实数区间是类别B。</p>
+<p>这个函数g在逻辑回归中一般是sigmoid函数：</p>
+<script type="math/tex; mode=display">g(z) = \frac{1}{1 + e^{-z}}</script><p><img src="/images/sigmoid.png" alt=""><br>sigmoid函数的一些性质：</p>
+<pre><code>    定义域：(-∞,+∞)
+    值域：(0,1)
+    函数在定义域内为连续和光滑函数
+    处处可导，导数为f(x)&#39; = f(x)(1-f(x)) 
+</code></pre><p>选择sigmoid函数的数学推导：<a href="http://www.win-vector.com/dfiles/LogisticRegressionMaxEnt.pdf" target="_blank" rel="noopener">LogisticRegressionMaxEnt.pdf</a></p>
+<p>模型的一般形式：</p>
+<script type="math/tex; mode=display">h_w(X) = \frac{1}{1+e^{-XW}}</script><p>其中X为样本特征矩阵，为mxn维。W为特征权重系数为nx1维。</p>
+<h3 id="损失函数-1"><a href="#损失函数-1" class="headerlink" title="损失函数"></a>损失函数</h3><p>假设我们的样本输出为0和1两类，那么我们有：</p>
+<script type="math/tex; mode=display">P(y=1|x,w) = h_w(x)</script><script type="math/tex; mode=display">P(y=0|x,w) = 1 - h_w(x)</script><p>把两式综合得：</p>
+<script type="math/tex; mode=display">P(y|x,w) = h_w(x)^y (1- h_w(x))^{(1-y)}</script><p>矩阵表示：</p>
+<script type="math/tex; mode=display">P(Y|X,W) = h_W(X)^Y(E - h_W(X))^{1-Y}</script><p>其中E为单位向量</p>
+<p>接下来我们使用概率论中极大似然估计的方法去定义损失函数:<br>似然函数是一种关于统计模型中的参数的函数，表示模型参数中的似然性。<strong>概率用于在已知一些参数的情况下，预测接下来的观测所得到的结果，而似然性则是用于在已知某些观测所得到的结果时，对有关事物的性质的参数进行估计</strong>。</p>
+<p>极大似然函数：</p>
+<script type="math/tex; mode=display">L(w | x,y) = P(y^1,y^2...y^n|x^1,x^2...x^n;\theta)</script><p>每个样本都是独立同分布的：</p>
+<script type="math/tex; mode=display">L(w | x,y) = \prod_{i=1}^n P(y^i | x^i; \theta)=\prod_{i=1}^n h_w(x^i)^{y^i} (1- h_w(x^i))^{(1-y^i)}</script><p>等式两边取-log：</p>
+<script type="math/tex; mode=display">l(w) = -log(L(w|x,y)) = -\sum_{i = 1}^n y^i log(h_w(x^i)) + (1-y^i)log(1-h_w(x^i))</script><p>矩阵表达：</p>
+<script type="math/tex; mode=display">l(w) = -Y \cdot log(h_w(X)) - (E-Y)\cdot log(E-h_w(X))</script><p>其中E为单位向量，$\cdot$为内积操作</p>
+<p>梯度下降法求解损失函数：</p>
+<script type="math/tex; mode=display">\frac{\partial l(w)}{\partial w}= -Y \cdot X^T\frac{1}{h_w(X)}h_w(X)(1-h_w(X))+ (E-Y)\cdot X^T\frac{1}{1-h_w(X)}h_w(X)(1-h_w(X))</script><p>化简后：</p>
+<script type="math/tex; mode=display">\frac{\partial l(w)}{\partial w} = X^T(h_w(X)-Y)</script><p>则：</p>
+<script type="math/tex; mode=display">w = w - \alpha X^T( h_w(X) - Y)</script><p>多元逻辑回归的样本概率密度函数：</p>
+<script type="math/tex; mode=display">P(y = K|x,\theta) = \frac{1}{1 + \sum_{t=1}^{K-1}e^{x\theta_t}}</script><h2 id="支持向量机"><a href="#支持向量机" class="headerlink" title="支持向量机"></a>支持向量机</h2><p>尝试找到一个超平面$W^Tx+b=0$,能把所有二元类别隔离开,让离超平面比较近的点尽可能地远离超平面。<br><img src="\images\svm.jpg" alt=""><br>一些概念：</p>
+<ul>
+<li>函数间隔：$\gamma’= y(w^Tx+b)$</li>
+<li>几何间隙：$\gamma = \frac{y(w^Tx+b)}{\parallel w \parallel_2} = \frac{\gamma’}{\parallel w \parallel_2} $, 这才是点到超平面的真正距离</li>
+<li>支持向量：和超平面平行的保持一定的函数距离的两个超平面对应的向量（一般的函数距离为1），支持向量到超平面的距离为：$\frac{1}{\parallel w \parallel_2}$,两个支持向量的距离为：$\frac{2}{\parallel w \parallel_2}$<h3 id="线性可分硬svm模型定义"><a href="#线性可分硬svm模型定义" class="headerlink" title="线性可分硬svm模型定义"></a>线性可分硬svm模型定义</h3>SVM模型是让所有点到超平面的距离大于一定的距离，也就是所有的分类点要在各自的支持向量的两边，用数学式子表示为：<script type="math/tex; mode=display">max\quad \gamma = \frac{y(w^Tx+b)}{\parallel w \parallel_2}\quad s.t\quad y_i(w^Tx_i+b)=\gamma'{^{(i)}} \geq \gamma'</script>一般取函数间隙$\gamma’=1$，损失函数可以定义为：<script type="math/tex; mode=display">max \, \gamma = \frac{1}{\parallel w \parallel_2}\quad s.t\quad y_i(w^Tx_i+b) \geq 1</script>由于$\frac{1}{\parallel w \parallel_2}$的最大化等于$\frac{1}{2}\parallel w \parallel_2^2$的最小化。这样优化函数等同于：<script type="math/tex; mode=display">min \, \frac{1}{2}\parallel w \parallel_2^2 \quad s.t \quad y_i(w^Tx_i+b) \geq 1(i=1,2,...m)</script></li>
+</ul>
+<p>通过拉格朗日函数转化成无约束的优化函数：</p>
+<script type="math/tex; mode=display">L(w,b,\alpha)=\frac{1}{2} \parallel w \parallel_2^2 - \sum_{i=1}^m \alpha_i (y_i(w^Tx_i+b - 1))\quad\alpha_i \geq 0</script><p>由于引入了拉格朗日乘子，我们的优化目标变为：</p>
+<script type="math/tex; mode=display">min \, maxL(w,b,\alpha)$$对于w，b是最小化，$\alpha$是最大化
+这个优化函数满足KKT条件，可以通过拉格朗日对偶将优化问题转化为等价的对偶问题来求解：
+$$max \, minL(w,b,a)</script><p>从上式中，我们可以先求优化函数对于w，b的极小值，再求拉格朗日乘子$\alpha$的极大值</p>
+<pre><code>1.  求w和b的极小值，即$min\, L(w,b,\alpha)$,我们可以通过对w和b求偏导得到：
+</code></pre><script type="math/tex; mode=display">\frac{\partial L}{\partial w} = 0 \Rightarrow w = \sum_{i=1}^m \alpha_iy_ix_i</script><script type="math/tex; mode=display">\frac{\partial L}{\partial b} = 0 \Rightarrow \sum_{i=1}^m \alpha_iy_i</script><p>从上式我们求得了w和$\alpha$的关系，只要在后面接着求出极大化$\alpha$，就可以求出我们的w了，至于b，由于上式已经没有b了，所以最后的b可以有很多个。<br>将w和$\alpha$的关系代入优化函数$L(w,b,\alpha)$消去w，定义：</p>
+<script type="math/tex; mode=display">\psi(\alpha) = max \, L(w,b,\alpha)</script><p>代入变换如下：<br><img src="\images\svm_tuidao.png" alt=""><br>利用SMO算法最优化上面的函数，求出$\alpha$,进而求出w和b</p>
+<h3 id="非线性可分软svm模型定义"><a href="#非线性可分软svm模型定义" class="headerlink" title="非线性可分软svm模型定义"></a>非线性可分软svm模型定义</h3><p> 混入异常点，导致不能线性可分，或使超平面的泛化能力变弱。<br> <img src="\images\svm_2.png" alt=""><br> <img src="\images\svm_3.png" alt=""><br> 解决方法是引入一个松弛变量$\xi_i \geq 0$,使函数间隙加上松弛变量大于等于1：</p>
+<script type="math/tex; mode=display">y_i(wx_i+b)\geq 1 - \xi_i</script><p> 对比硬间隙，可以看到对样本到超平面的函数距离的要求放松了，当然松弛变量也不能白加，每一个松弛变量是有代价的：</p>
+<script type="math/tex; mode=display">min\;\; \frac{1}{2}||w||_2^2+C\sum\limits_{i=1}^{m}\xi_i</script><script type="math/tex; mode=display">s.t.  \;\; y_i(w^Tx_i + b)  \geq 1 - \xi_i \;\;(i =1,2,...m)</script><script type="math/tex; mode=display">
+\xi_i \geq 0 \;\;(i =1,2,...m)</script><p>这里C是惩罚参数，C越大对误分类的惩罚越大，C越小，对误分类的惩罚越小。<br>和线性可分SVM的优化方式类似，我们首先将软间隔最大化的约束问题用拉格朗日函数转化为无约束问题如下：</p>
+<script type="math/tex; mode=display">L(w,b,\xi,\alpha,\mu) = \frac{1}{2}||w||_2^2 +C\sum\limits_{i=1}^{m}\xi_i - \sum\limits_{i=1}^{m}\alpha_i[y_i(w^Tx_i + b) - 1 + \xi_i] - \sum\limits_{i=1}^{m}\mu_i\xi_i</script><p>其中$\mu_i \geq 0,\alpha_i \geq 0$均为拉格朗日系数<br>通过求偏导化简变换最后得到：</p>
+<script type="math/tex; mode=display">
+ min  \frac{1}{2}\sum\limits_{i=1,j=1}^{m}\alpha_i\alpha_jy_iy_jx_i^Tx_j - \sum\limits_{i=1}^{m}\alpha_i</script><script type="math/tex; mode=display">
+s.t. \; \sum\limits_{i=1}^{m}\alpha_iy_i = 0</script><script type="math/tex; mode=display">
+0 \leq \alpha_i \leq C</script><p>这就是软间隔最大化时的线性可分SVM的优化目标形式。</p>
+<h2 id="决策树"><a href="#决策树" class="headerlink" title="决策树"></a>决策树</h2><p>决策树的关键是如何确定特征作为条件的先后顺序</p>
+<h3 id="ID3算法（昆兰"><a href="#ID3算法（昆兰" class="headerlink" title="ID3算法（昆兰)"></a>ID3算法（昆兰)</h3><p>基本概念：</p>
+<ul>
+<li>熵，用来度量事件不确定性，越不确定的事物，它的熵越大。<script type="math/tex; mode=display">H(X) = - \sum_{i=1}^n p_ilogp_i</script>  上式是变量X的熵，其中n代表X的n种不同的离散取值，而$p_i$代表X取值为i的概率。举个例子当X有2个可能的取值，而这两个取值各为$\frac{1}{2}$时，X的熵最大，具有最大的不确定性。</li>
+<li>联合熵，$H(X,Y) = -\sum\limits_{i=1}^{n}p(x_i,y_i)logp(x_i,y_i)$</li>
+<li>条件熵，$H(X|Y) = -\sum\limits_{i=1}^{n}p(x_i,y_i)logp(x_i|y_i) = \sum\limits_{j=1}^{n}p(y_j)H(X|y_i)$</li>
+<li><p>互信息（信息增益）$I(X,Y)$，$H(X) - H(X|Y)$，度量了X在知道Y之后不确定性减少的程度。信息增益越大，越适合用来分类。<br>例子：<br>我们有15个样本D，输出为0或者1。其中有9个输出为1， 6个输出为0。 样本中有个特征A，取值为A1，A2和A3。在取值为A1的样本的输出中，有3个输出为1， 2个输出为0，取值为A2的样本输出中,2个输出为1,3个输出为0， 在取值为A3的样本中，4个输出为1，1个输出为0.</p>
+<p>  样本D的熵为：$H(D) = -(\frac{9}{15}log_2\frac{9}{15} + \frac{6}{15}log_2\frac{6}{15}) = 0.971$<br>  样本D在特征下的条件熵为：$H(D|A) = \frac{5}{15}H(D1) + \frac{5}{15}H(D2) + \frac{5}{15}H(D3)$<br>  对应的信息增益为:$I(D,A) = H(D) - H(D|A) = 0.083$</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//算法伪代码，同特征可以出现在不同子树的多个内部节点中</span><br><span class="line">检测数据集中的每个子项是否属于同一分类:</span><br><span class="line">    if 是 return 类标签</span><br><span class="line">    else</span><br><span class="line">        寻找划分数据集的最好特征</span><br><span class="line">        划分数据集</span><br><span class="line">        创建分支节点</span><br><span class="line">            for 每个划分的子集</span><br><span class="line">                调用createBranch并增加返回结果到分支节点中</span><br><span class="line">        return 分支节点</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>不足：</p>
+<pre><code>    1.没有考虑连续值
+    2.在其实不确定性是一样的情况下,取值比较多的特征值比取值少的特征值信息增益大
+    3.没有考虑缺失值
+    4.没有考虑过拟合
+</code></pre><h3 id="C4-5算法"><a href="#C4-5算法" class="headerlink" title="C4.5算法"></a>C4.5算法</h3><p>该算法解决了ID3算法中的四个问题：</p>
+<ol>
+<li>对于不能处理连续特征，C4.5是将连续特征离散化。比如m个样本的连续特征A有m个，从小到大排序为${a_1,a_2,…,a_m}$,则C4.5算法取相邻两样本值的平均数，一共得到m-1个划分点，其中第i个划分点$T_i$表示为：$T_i = \frac{a_i+a_{i+1}}{2}$,对于这m-1个点，分别计算以该点为二元分类点时的信息增益。选择信息增益最大的点作为该连续特征的二元离散分类点。比如取到的增益最大的点为$a_t$.则小于$a_t$为类别1，大于$a_t$为类别2。这样我们就做到了连续特征的离散化。要注意的是，与离散属性不同的是，如果当前节点为连续属性，则该属性后面还可以参与子节点的产生选择过程。</li>
+<li>对于第二个问题，信息增益容易偏向取值较多的特征。引入信息增益比的变量$I_R(X,Y)$<script type="math/tex; mode=display">I_R(D,A) = \frac{I(A,D)}{H_A(D)}</script>其中D为样本特征输出的集合，A为样本特征，对于特征熵$H_A(D)$:<script type="math/tex; mode=display">H_A(D) = -\sum_{i=1}^n \frac{|D_i|}{|D|}log\frac{D_i}{D}</script>其中n为特征A的类别数，$D_i$为特征A的第i个取值对应的样本个数。D为样本个数。特征数越多的特征对应的特征熵越大，作为分母起到一定的校正作用。</li>
+</ol>
+<ul>
+<li><p>对于第三个缺失值的处理，主要需要解决的是两个问题，一是选择划分的属性，计算信息增益比在样本某些特征缺失的情况下，二是选定了划分属性，对于在该属性上缺失特征的样本的处理。</p>
+<p>  对于第一个子问题，对于某一个有缺失特征值的特征A。C4.5的思路是将数据分成两部分，对每个样本设置一个权重（初始可以都为1），然后划分数据，一部分是有特征值A的数据D1，另一部分是没有特征A的数据D2. 然后对于没有缺失特征A的数据集D1来和对应的A特征的各个特征值一起计算加权重后的信息增益比，最后乘上一个系数，这个系数是无特征A缺失的样本加权后所占加权总样本的比例。</p>
+<p>  对于第二个子问题，可以将缺失特征的样本同时划分入所有的子节点，不过将该样本的权重按各个子节点样本的数量比例来分配。比如缺失特征A的样本a之前权重为1，特征A有3个特征值A1,A2,A3。 3个特征值对应的无缺失A特征的样本个数为2,3,4.则a同时划分入A1，A2，A3。对应权重调节为2/9,3/9, 4/9。</p>
+</li>
+<li>过拟合使用剪枝算法</li>
+</ul>
+<h3 id="CART算法"><a href="#CART算法" class="headerlink" title="CART算法"></a>CART算法</h3><p>ID3和C4.5的算法中，都使用基于信息论的熵模型来选择特征，这里会涉及大量的对数运算。而在CART中采用基尼系数来代替信息增益比，基尼系数代表了模型的不纯度，基尼系数越小，则不纯度越低，特征越好。<br>具体的，在分类问题中，假设有K个类别，第k个类别的概率为$p_k$, 则基尼系数的表达式为：</p>
+<script type="math/tex; mode=display">Gini(p) = \sum\limits_{k=1}^{K}p_k(1-p_k) = 1- \sum\limits_{k=1}^{K}p_k^2</script><p>对于个给定的样本D,假设有K个类别, 第k个类别的数量为$C_k$,则<strong>样本D</strong>的基尼系数表达式为：</p>
+<script type="math/tex; mode=display">Gini(D) = 1-\sum\limits_{k=1}^{K}(\frac{|C_k|}{|D|})^2</script><p>特别的，对于样本D,如果根据特征A的某个值a,把D分成D1和D2两部分，则<strong>在特征A的条件下，D的基尼系数</strong>表达式为：</p>
+<script type="math/tex; mode=display">Gini(D,A) = \frac{|D_1|}{|D|}Gini(D_1) + \frac{|D_2|}{|D|}Gini(D_2)</script><p>为了进一步简化，CART分类树算法每次仅仅对某个特征的值进行二分，而不是多分，这样CART分类树算法建立起来的是二叉树，而不是多叉树。这样一可以进一步简化基尼系数的计算，二可以建立一个更加优雅的二叉树模型。</p>
+<ul>
+<li>对于CART分类树连续值的处理问题，其思想和C4.5是相同的，都是将连续的特征离散化。唯一的区别在于在选择划分点时的度量方式不同，C4.5使用的是信息增益比，则CART分类树使用的是基尼系数。</li>
+<li>对于CART分类树离散值的处理问题，采用的思路是不停的二分离散特征。回忆下ID3或者C4.5，如果某个特征A被选取建立决策树节点，如果它有A1,A2,A3三种类别，我们会在决策树上一下建立一个三叉的节点。这样导致决策树是多叉树。但是CART分类树使用的方法不同，他采用的是不停的二分，还是这个例子，CART分类树会考虑把A分成{A1}和{A2,A3},{A2}和{A1,A3},{A3}和{A1,A2}{A2}和{A1,A3}{A2},然后建立二叉树节点，一个节点是A2对应的样本，另一个节点是{A1,A3}对应的节点。同时，由于这次没有把特征A的取值完全分开，后面我们还有机会在子节点继续选择到特征A来划分A1和A3。这和ID3或者C4.5不同，在ID3或者C4.5的一棵子树中，离散特征只会参与一次节点的建立。</li>
+<li>CART回归树建立算法,回归树样本输出的事连续值。除了概念的不同，CART回归树和CART分类树的建立和预测的区别主要有下面两点：<br>1)连续值的处理方法不同，对于回归模型，我们使用了常见的和方差的度量方式，CART回归树的度量目标是，对于任意划分特征A，对应的任意划分点s两边划分成的数据集D1和D2，求出使D1和D2各自集合的均方差最小，同时D1和D2的均方差之和最小所对应的特征和特征值划分点。<script type="math/tex; mode=display">min \Bigg[min \sum\limits_{x_i \in D_1(A,s)}(y_i - c_1)^2 + min \sum\limits_{x_i \in D_2(A,s)}(y_i - c_2)^2\Bigg]</script>其中，$c_1$为D1数据集的样本输出均值，$c_2$为D2数据集的样本输出值。<br>2)决策树建立后做预测的方式不同。采用的是用最终叶子的均值或者中位数来预测输出结果。</li>
+<li>CART剪枝：CART树的剪枝算法可以概括为两步，第一步是从原始决策树生成各种剪枝效果的决策树，第二部是用交叉验证来检验剪枝后的预测能力，选择泛化预测能力最好的剪枝后的数作为最终的CART树。剪枝损失函数：<script type="math/tex; mode=display">C_{\alpha}(T_t) = C(T_t) + \alpha |T_t|</script>其中$\alpha$为正则化参数，$C(T_t)$为训练数据的预测误差，分类树用基尼系数度量，回归树是均方差度量。$|T_t|$是子树T的叶子节点的数量。<br>当$\alpha$大于下式时：<script type="math/tex; mode=display">\alpha = \frac{C(T)-C(T_t)}{|T_t|-1}</script>算法流程：<br><img src="\images\decisionCut.png" alt=""></li>
+</ul>
+<h2 id="朴素贝叶斯"><a href="#朴素贝叶斯" class="headerlink" title="朴素贝叶斯"></a>朴素贝叶斯</h2><p>统计学的一些基本知识：</p>
+<ul>
+<li>贝叶斯学派的思想可以概括为先验概率+数据=后验概率</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/11/课题组报告/" rel="next" title="课题组报告">
+                <i class="fa fa-chevron-left"></i> 课题组报告
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Hanjie WU" />
+            
+              <p class="site-author-name" itemprop="name">Hanjie WU</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/cshanjiewu" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:cshanjiewu@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#线性回归"><span class="nav-number">1.</span> <span class="nav-text">线性回归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模型定义"><span class="nav-number">1.1.</span> <span class="nav-text">模型定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#损失函数"><span class="nav-number">1.2.</span> <span class="nav-text">损失函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Logistic逻辑回归"><span class="nav-number">2.</span> <span class="nav-text">Logistic逻辑回归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模型定义-1"><span class="nav-number">2.1.</span> <span class="nav-text">模型定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#损失函数-1"><span class="nav-number">2.2.</span> <span class="nav-text">损失函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#支持向量机"><span class="nav-number">3.</span> <span class="nav-text">支持向量机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线性可分硬svm模型定义"><span class="nav-number">3.1.</span> <span class="nav-text">线性可分硬svm模型定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非线性可分软svm模型定义"><span class="nav-number">3.2.</span> <span class="nav-text">非线性可分软svm模型定义</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#决策树"><span class="nav-number">4.</span> <span class="nav-text">决策树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ID3算法（昆兰"><span class="nav-number">4.1.</span> <span class="nav-text">ID3算法（昆兰)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C4-5算法"><span class="nav-number">4.2.</span> <span class="nav-text">C4.5算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CART算法"><span class="nav-number">4.3.</span> <span class="nav-text">CART算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#朴素贝叶斯"><span class="nav-number">5.</span> <span class="nav-text">朴素贝叶斯</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hanjie WU</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>
