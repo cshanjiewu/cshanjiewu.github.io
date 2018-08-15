@@ -79,13 +79,19 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hanjie&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/archives/2018/08/index.html">
+<meta name="description" content="L1和L2正则化L1正则$||w||_1$是指权值向量w中各个元素的绝对值之和，有助于产生一个稀疏矩阵，用于特征选择。 L2正则$||w||_2$,权值向量中各个元素的平方和再求平方根，防止过拟合。 通过集成学习的思路正则化（bagging）首先我们要对原始的m个训练样本进行有放回随机采样，构建N组m个样本的数据集，然后分别用这N组数据集去训练我们的DNN。即采用我们的前向传播算法和反向传播算法得">
+<meta property="og:type" content="article">
+<meta property="og:title" content="神经网络正则化">
+<meta property="og:url" content="http://yoursite.com/2018/08/15/神经网络正则化/index.html">
 <meta property="og:site_name" content="Hanjie&#39;s Blog">
+<meta property="og:description" content="L1和L2正则化L1正则$||w||_1$是指权值向量w中各个元素的绝对值之和，有助于产生一个稀疏矩阵，用于特征选择。 L2正则$||w||_2$,权值向量中各个元素的平方和再求平方根，防止过拟合。 通过集成学习的思路正则化（bagging）首先我们要对原始的m个训练样本进行有放回随机采样，构建N组m个样本的数据集，然后分别用这N组数据集去训练我们的DNN。即采用我们的前向传播算法和反向传播算法得">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/images/dropout.png">
+<meta property="og:updated_time" content="2018-08-15T10:48:22.183Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hanjie&#39;s Blog">
+<meta name="twitter:title" content="神经网络正则化">
+<meta name="twitter:description" content="L1和L2正则化L1正则$||w||_1$是指权值向量w中各个元素的绝对值之和，有助于产生一个稀疏矩阵，用于特征选择。 L2正则$||w||_2$,权值向量中各个元素的平方和再求平方根，防止过拟合。 通过集成学习的思路正则化（bagging）首先我们要对原始的m个训练样本进行有放回随机采样，构建N组m个样本的数据集，然后分别用这N组数据集去训练我们的DNN。即采用我们的前向传播算法和反向传播算法得">
+<meta name="twitter:image" content="http://yoursite.com/images/dropout.png">
 
 
 
@@ -115,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/2018/08/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/08/15/神经网络正则化/"/>
 
 
 
 
 
-  <title>Archive | Hanjie's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>神经网络正则化 | Hanjie's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -140,7 +146,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-archive">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -214,333 +220,145 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/15/神经网络正则化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hanjie WU">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hanjie's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">神经网络正则化</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-15T16:05:39+08:00">
+                2018-08-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        Um..! 8 posts in total. Keep on posting.
-      </span>
 
-      
-
-        
-        
-        
-
-        
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2018">2018</h1>
-          </div>
-        
-        
+            
+          
 
-        
+          
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/08/15/神经网络正则化/" itemprop="url">
-              
-                <span itemprop="name">神经网络正则化</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-08-15T16:05:39+08:00"
-              content="2018-08-15" >
-          08-15
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+        </div>
+      </header>
+    
 
-
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/08/15/损失函数和激活函数的选择/" itemprop="url">
-              
-                <span itemprop="name">损失函数和激活函数的选择</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-08-15T14:56:08+08:00"
-              content="2018-08-15" >
-          08-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/08/11/机器学习基本算法总结/" itemprop="url">
-              
-                <span itemprop="name">机器学习基本算法总结</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-08-11T19:30:51+08:00"
-              content="2018-08-11" >
-          08-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <h2 id="L1和L2正则化"><a href="#L1和L2正则化" class="headerlink" title="L1和L2正则化"></a>L1和L2正则化</h2><p>L1正则$||w||_1$是指权值向量w中各个元素的绝对值之和，有助于产生一个稀疏矩阵，用于特征选择。</p>
+<p>L2正则$||w||_2$,权值向量中各个元素的平方和再求平方根，防止过拟合。</p>
+<h2 id="通过集成学习的思路正则化（bagging）"><a href="#通过集成学习的思路正则化（bagging）" class="headerlink" title="通过集成学习的思路正则化（bagging）"></a>通过集成学习的思路正则化（bagging）</h2><p>首先我们要对原始的m个训练样本进行有放回随机采样，构建N组m个样本的数据集，然后分别用这N组数据集去训练我们的DNN。即采用我们的前向传播算法和反向传播算法得到N个DNN模型的W,b参数组合，最后对N个DNN模型的输出用加权平均法或者投票法决定最终输出。<br>不过用集成学习Bagging的方法有一个问题，就是我们的DNN模型本来就比较复杂，参数很多。现在又变成了N个DNN模型，这样参数又增加了N倍，从而导致训练这样的网络要花更加多的时间和空间。因此一般N的个数不能太多，比如5-10个就可以了。</p>
+<h2 id="Dropout正则化"><a href="#Dropout正则化" class="headerlink" title="Dropout正则化"></a>Dropout正则化</h2><p>Dropout指的是在用前向传播算法和反向传播算法训练DNN模型时，一批数据迭代时，随机的从全连接DNN网络中去掉一部分隐藏层的神经元。<br><img src="\images\dropout.png" alt=""><br>dropout并不意味着这些神经元永远的消失了。在下一批数据迭代前，我们会把DNN模型恢复成最初的全连接模型，然后再用随机的方法去掉部分隐藏层的神经元，接着去迭代更新W,b。当然，这次用随机的方法去掉部分隐藏层后的残缺DNN网络和上次的残缺DNN网络并不相同。<br>使用基于dropout的正则化比基于bagging的正则化简单，这显而易见，当然天下没有免费的午餐，由于dropout会将原始数据分批迭代，因此原始数据集最好较大，否则模型可能会欠拟合。</p>
+<h2 id="数据增强进行正则化"><a href="#数据增强进行正则化" class="headerlink" title="数据增强进行正则化"></a>数据增强进行正则化</h2><p>增强模型泛化能力最好的办法是有更多的训练数据，对于图像数据，增强数据比较容易，通过旋转平移镜像变换可以获得新数据。</p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/08/11/课题组报告/" itemprop="url">
-              
-                <span itemprop="name">课题组报告</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-08-11T18:58:29+08:00"
-              content="2018-08-11" >
-          08-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/08/10/图像预处理/" itemprop="url">
-              
-                <span itemprop="name">图像预处理</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-08-10T15:36:16+08:00"
-              content="2018-08-10" >
-          08-10
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/08/10/计算机视觉概述/" itemprop="url">
-              
-                <span itemprop="name">计算机视觉概述</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-08-10T02:36:31+08:00"
-              content="2018-08-10" >
-          08-10
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/08/09/ 大数据与大计算——Hadoop和MapReduce/" itemprop="url">
-              
-                <span itemprop="name">大数据与大计算——Hadoop和MapReduce</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-08-09T09:09:19+08:00"
-              content="2018-08-09" >
-          08-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/08/08/对偶学习笔记/" itemprop="url">
-              
-                <span itemprop="name">对偶学习论文笔记</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-08-08T19:40:12+08:00"
-              content="2018-08-08" >
-          08-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/15/损失函数和激活函数的选择/" rel="next" title="损失函数和激活函数的选择">
+                <i class="fa fa-chevron-left"></i> 损失函数和激活函数的选择
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -548,6 +366,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -568,8 +390,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -631,6 +462,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#L1和L2正则化"><span class="nav-number">1.</span> <span class="nav-text">L1和L2正则化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过集成学习的思路正则化（bagging）"><span class="nav-number">2.</span> <span class="nav-text">通过集成学习的思路正则化（bagging）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dropout正则化"><span class="nav-number">3.</span> <span class="nav-text">Dropout正则化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据增强进行正则化"><span class="nav-number">4.</span> <span class="nav-text">数据增强进行正则化</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -771,6 +618,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
