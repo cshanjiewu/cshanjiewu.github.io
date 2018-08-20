@@ -87,7 +87,9 @@
 <meta property="og:description" content="L1和L2正则化L1正则$||w||_1$是指权值向量w中各个元素的绝对值之和，有助于产生一个稀疏矩阵，用于特征选择。 L2正则$||w||_2$,权值向量中各个元素的平方和再求平方根，防止过拟合。 通过集成学习的思路正则化（bagging）首先我们要对原始的m个训练样本进行有放回随机采样，构建N组m个样本的数据集，然后分别用这N组数据集去训练我们的DNN。即采用我们的前向传播算法和反向传播算法得">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/images/dropout.png">
-<meta property="og:updated_time" content="2018-08-15T10:48:22.183Z">
+<meta property="og:image" content="http://yoursite.com/images/bn.png">
+<meta property="og:image" content="http://yoursite.com/images/bn2.png">
+<meta property="og:updated_time" content="2018-08-20T01:58:29.266Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="神经网络正则化">
 <meta name="twitter:description" content="L1和L2正则化L1正则$||w||_1$是指权值向量w中各个元素的绝对值之和，有助于产生一个稀疏矩阵，用于特征选择。 L2正则$||w||_2$,权值向量中各个元素的平方和再求平方根，防止过拟合。 通过集成学习的思路正则化（bagging）首先我们要对原始的m个训练样本进行有放回随机采样，构建N组m个样本的数据集，然后分别用这N组数据集去训练我们的DNN。即采用我们的前向传播算法和反向传播算法得">
@@ -304,8 +306,10 @@
         <h2 id="L1和L2正则化"><a href="#L1和L2正则化" class="headerlink" title="L1和L2正则化"></a>L1和L2正则化</h2><p>L1正则$||w||_1$是指权值向量w中各个元素的绝对值之和，有助于产生一个稀疏矩阵，用于特征选择。</p>
 <p>L2正则$||w||_2$,权值向量中各个元素的平方和再求平方根，防止过拟合。</p>
 <h2 id="通过集成学习的思路正则化（bagging）"><a href="#通过集成学习的思路正则化（bagging）" class="headerlink" title="通过集成学习的思路正则化（bagging）"></a>通过集成学习的思路正则化（bagging）</h2><p>首先我们要对原始的m个训练样本进行有放回随机采样，构建N组m个样本的数据集，然后分别用这N组数据集去训练我们的DNN。即采用我们的前向传播算法和反向传播算法得到N个DNN模型的W,b参数组合，最后对N个DNN模型的输出用加权平均法或者投票法决定最终输出。<br>不过用集成学习Bagging的方法有一个问题，就是我们的DNN模型本来就比较复杂，参数很多。现在又变成了N个DNN模型，这样参数又增加了N倍，从而导致训练这样的网络要花更加多的时间和空间。因此一般N的个数不能太多，比如5-10个就可以了。</p>
-<h2 id="Dropout正则化"><a href="#Dropout正则化" class="headerlink" title="Dropout正则化"></a>Dropout正则化</h2><p>Dropout指的是在用前向传播算法和反向传播算法训练DNN模型时，一批数据迭代时，随机的从全连接DNN网络中去掉一部分隐藏层的神经元。<br><img src="\images\dropout.png" alt=""><br>dropout并不意味着这些神经元永远的消失了。在下一批数据迭代前，我们会把DNN模型恢复成最初的全连接模型，然后再用随机的方法去掉部分隐藏层的神经元，接着去迭代更新W,b。当然，这次用随机的方法去掉部分隐藏层后的残缺DNN网络和上次的残缺DNN网络并不相同。<br>使用基于dropout的正则化比基于bagging的正则化简单，这显而易见，当然天下没有免费的午餐，由于dropout会将原始数据分批迭代，因此原始数据集最好较大，否则模型可能会欠拟合。</p>
+<h2 id="Dropout正则化"><a href="#Dropout正则化" class="headerlink" title="Dropout正则化"></a>Dropout正则化</h2><p>Dropout指的是在用前向传播算法和反向传播算法训练DNN模型时，一批数据迭代时，以<strong>概率rate</strong>随机的从全连接DNN网络中去掉一部分<strong>隐藏层的神经元</strong>。Dropout在测试时为了模拟训练时的权重，每个权重需要除以$\frac{1}{1-rate}$<br><img src="\images\dropout.png" alt=""><br>dropout并不意味着这些神经元永远的消失了。在下一批数据迭代前，我们会把DNN模型恢复成最初的全连接模型，然后再用随机的方法去掉部分隐藏层的神经元，接着去迭代更新W,b。当然，这次用随机的方法去掉部分隐藏层后的残缺DNN网络和上次的残缺DNN网络并不相同。<br>使用基于dropout的正则化比基于bagging的正则化简单，这显而易见，当然天下没有免费的午餐，由于dropout会将原始数据分批迭代，因此原始数据集最好较大，否则模型可能会欠拟合。</p>
 <h2 id="数据增强进行正则化"><a href="#数据增强进行正则化" class="headerlink" title="数据增强进行正则化"></a>数据增强进行正则化</h2><p>增强模型泛化能力最好的办法是有更多的训练数据，对于图像数据，增强数据比较容易，通过旋转平移镜像变换可以获得新数据。</p>
+<h2 id="Batch-Normalization（思想源于白化操作）"><a href="#Batch-Normalization（思想源于白化操作）" class="headerlink" title="Batch Normalization（思想源于白化操作）"></a>Batch Normalization（思想源于白化操作）</h2><p>机器学习有个重要的假设：假设训练数据和测试数据是满足相同分布的，这是通过训练数据获得的模型能够在测试集获得好的效果的一个基本保障。**BatchNorm就是在深度神经网络训练过程中使得每一层神经网络的输入保持相同分布的。</p>
+<p><strong>在激活函数前进行Batch Normalization。因为深层神经网络在做非线性变换前的</strong>激活输入值<strong>（就是那个x=WU+B，U是输入）</strong>随着网络深度加深或者在训练过程中，其分布逐渐发生偏移或者变动，之所以训练收敛慢，一般是整体分布逐渐往非线性函数的取值区间的上下限两端靠近<strong>（对于Sigmoid函数来说，意味着激活输入值WU+B是大的负值或正值），所以这</strong>导致反向传播时低层神经网络的梯度消失<strong>，这是训练深层神经网络收敛越来越慢的</strong>本质原因<strong>，</strong>而BN就是通过一定的规范化手段，把每层神经网络任意神经元这个输入值的分布强行拉回到均值为0方差为1的标准正态分布<strong>，其实就是把越来越偏的分布强制拉回比较标准的分布，这样使得激活输入值落在非线性函数对输入比较敏感的区域，这样输入的小变化就会导致损失函数较大的变化，意思是</strong>这样让梯度变大，避免梯度消失问题产生，而且梯度变大意味着学习收敛速度快，能大大加快训练速度。<br><img src="\images\bn.png" alt=""><br>经过这个<strong>变换后某个神经元的激活x形成了均值为0，方差为1的正态分布，目的是把值往后续要进行的非线性变换的线性区拉动，增大导数值，增强反向传播信息流动性，加快训练收敛速度。**</strong>但是这样会导致网络表达能力下降，为了防止这一点，每个神经元增加两个调节参数（scale和shift），这两个参数是通过训练来学习到的，用来对变换后的激活反变换，使得网络表达能力增强，即对变换后的激活进行如下的scale和shift操作，这其实是变换的反操作。<br>概括流程：<br><img src="\images\bn2.png" alt=""></p>
 
       
     </div>
@@ -339,6 +343,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/20/深度学习基础/" rel="prev" title="常见CNN网络架构总结">
+                常见CNN网络架构总结 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -419,7 +427,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -472,7 +480,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#L1和L2正则化"><span class="nav-number">1.</span> <span class="nav-text">L1和L2正则化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过集成学习的思路正则化（bagging）"><span class="nav-number">2.</span> <span class="nav-text">通过集成学习的思路正则化（bagging）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dropout正则化"><span class="nav-number">3.</span> <span class="nav-text">Dropout正则化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据增强进行正则化"><span class="nav-number">4.</span> <span class="nav-text">数据增强进行正则化</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#L1和L2正则化"><span class="nav-number">1.</span> <span class="nav-text">L1和L2正则化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过集成学习的思路正则化（bagging）"><span class="nav-number">2.</span> <span class="nav-text">通过集成学习的思路正则化（bagging）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dropout正则化"><span class="nav-number">3.</span> <span class="nav-text">Dropout正则化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据增强进行正则化"><span class="nav-number">4.</span> <span class="nav-text">数据增强进行正则化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Batch-Normalization（思想源于白化操作）"><span class="nav-number">5.</span> <span class="nav-text">Batch Normalization（思想源于白化操作）</span></a></li></ol></div>
             
 
           </div>

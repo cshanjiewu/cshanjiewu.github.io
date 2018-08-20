@@ -79,21 +79,21 @@
 
 
 
-<meta name="description" content="均方差损失函数 + Sigmoid激活函数回顾下Sigmoid函数的形式： \sigma(z) = \frac{1}{1+e^{-z}}均分差损失函数的导数： \frac{\partial J(W,b,x,y)}{\partial z^L} = (a^L-y) \odot \sigma^{&apos;}(z)我们从Sigmoid的函数图像可以看出，当Z的值越来越大或者越来越小时，函数曲线会变得越来越平缓，意">
+<meta name="description" content="均方差损失函数 + Sigmoid激活函数回顾下Sigmoid函数的形式： \sigma(z) = \frac{1}{1+e^{-z}}均方差损失函数的导数： \frac{\partial J(W,b,x,y)}{\partial z^L} = (a^L-y) \odot \sigma^{&apos;}(z)我们从Sigmoid的函数图像可以看出，当Z的值越来越大或者越来越小时，函数曲线会变得越来越平缓，意">
 <meta property="og:type" content="article">
 <meta property="og:title" content="损失函数和激活函数的选择">
 <meta property="og:url" content="http://yoursite.com/2018/08/15/损失函数和激活函数的选择/index.html">
 <meta property="og:site_name" content="Hanjie&#39;s Blog">
-<meta property="og:description" content="均方差损失函数 + Sigmoid激活函数回顾下Sigmoid函数的形式： \sigma(z) = \frac{1}{1+e^{-z}}均分差损失函数的导数： \frac{\partial J(W,b,x,y)}{\partial z^L} = (a^L-y) \odot \sigma^{&apos;}(z)我们从Sigmoid的函数图像可以看出，当Z的值越来越大或者越来越小时，函数曲线会变得越来越平缓，意">
+<meta property="og:description" content="均方差损失函数 + Sigmoid激活函数回顾下Sigmoid函数的形式： \sigma(z) = \frac{1}{1+e^{-z}}均方差损失函数的导数： \frac{\partial J(W,b,x,y)}{\partial z^L} = (a^L-y) \odot \sigma^{&apos;}(z)我们从Sigmoid的函数图像可以看出，当Z的值越来越大或者越来越小时，函数曲线会变得越来越平缓，意">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/images/sigmoid.png">
 <meta property="og:image" content="http://yoursite.com/images/relu.png">
 <meta property="og:image" content="http://yoursite.com/images/softplus.png">
 <meta property="og:image" content="http://yoursite.com/images/leakyrelu.png">
-<meta property="og:updated_time" content="2018-08-15T08:05:35.970Z">
+<meta property="og:updated_time" content="2018-08-20T01:47:49.235Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="损失函数和激活函数的选择">
-<meta name="twitter:description" content="均方差损失函数 + Sigmoid激活函数回顾下Sigmoid函数的形式： \sigma(z) = \frac{1}{1+e^{-z}}均分差损失函数的导数： \frac{\partial J(W,b,x,y)}{\partial z^L} = (a^L-y) \odot \sigma^{&apos;}(z)我们从Sigmoid的函数图像可以看出，当Z的值越来越大或者越来越小时，函数曲线会变得越来越平缓，意">
+<meta name="twitter:description" content="均方差损失函数 + Sigmoid激活函数回顾下Sigmoid函数的形式： \sigma(z) = \frac{1}{1+e^{-z}}均方差损失函数的导数： \frac{\partial J(W,b,x,y)}{\partial z^L} = (a^L-y) \odot \sigma^{&apos;}(z)我们从Sigmoid的函数图像可以看出，当Z的值越来越大或者越来越小时，函数曲线会变得越来越平缓，意">
 <meta name="twitter:image" content="http://yoursite.com/images/sigmoid.png">
 
 
@@ -305,7 +305,7 @@
 
       
         <h2 id="均方差损失函数-Sigmoid激活函数"><a href="#均方差损失函数-Sigmoid激活函数" class="headerlink" title="均方差损失函数 + Sigmoid激活函数"></a>均方差损失函数 + Sigmoid激活函数</h2><p>回顾下Sigmoid函数的形式：</p>
-<script type="math/tex; mode=display">\sigma(z) = \frac{1}{1+e^{-z}}</script><p><img src="\images\sigmoid.png" alt=""><br>均分差损失函数的导数：</p>
+<script type="math/tex; mode=display">\sigma(z) = \frac{1}{1+e^{-z}}</script><p><img src="\images\sigmoid.png" alt=""><br>均方差损失函数的导数：</p>
 <script type="math/tex; mode=display">\frac{\partial J(W,b,x,y)}{\partial z^L} = (a^L-y) \odot \sigma^{'}(z)</script><p>我们从Sigmoid的函数图像可以看出，当Z的值越来越大或者越来越小时，函数曲线会变得越来越平缓，意味着此时的导数$\sigma’(z)$也会越来越小。这会导致在反向传播的时候，w和b的参数更新得很慢，收敛速度变慢。</p>
 <h2 id="交叉熵损失函数-Sigmoid激活函数"><a href="#交叉熵损失函数-Sigmoid激活函数" class="headerlink" title="交叉熵损失函数 + Sigmoid激活函数"></a>交叉熵损失函数 + Sigmoid激活函数</h2><p>交叉熵函数形式：</p>
 <script type="math/tex; mode=display">J(W,b,a,y) = -y \bullet lna- (1-y) \bullet ln(1 -a)</script><p>交叉熵函数导数形式：</p>
@@ -443,7 +443,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

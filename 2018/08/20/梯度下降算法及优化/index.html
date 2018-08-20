@@ -79,14 +79,23 @@
 
 
 
+<meta name="description" content="问题介绍绝大部分优化问题都可以转化为下面的问题：给定一个与参数$\theta$有关的目标函数$J(\theta)$，求使得J最小的参数$\theta$。针对此类问题，梯度下降通过往梯度的负方向移动参数来求解。 梯度下降算法变种 梯度下降算法主要有三种变种，主要区别是使用多少数据来计算目标函数的梯度。不同的方法是在准确性和优化速度之间进行权衡。  Batch gradient descent（BSG">
 <meta property="og:type" content="article">
-<meta property="og:title" content="对偶学习论文笔记">
-<meta property="og:url" content="http://yoursite.com/2018/08/08/对偶学习笔记/index.html">
+<meta property="og:title" content="梯度下降算法及优化">
+<meta property="og:url" content="http://yoursite.com/2018/08/20/梯度下降算法及优化/index.html">
 <meta property="og:site_name" content="Hanjie&#39;s Blog">
+<meta property="og:description" content="问题介绍绝大部分优化问题都可以转化为下面的问题：给定一个与参数$\theta$有关的目标函数$J(\theta)$，求使得J最小的参数$\theta$。针对此类问题，梯度下降通过往梯度的负方向移动参数来求解。 梯度下降算法变种 梯度下降算法主要有三种变种，主要区别是使用多少数据来计算目标函数的梯度。不同的方法是在准确性和优化速度之间进行权衡。  Batch gradient descent（BSG">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-11T10:06:48.726Z">
+<meta property="og:image" content="http://yoursite.com/images/momentum.jpg">
+<meta property="og:image" content="http://yoursite.com/images/nesterov.jpg">
+<meta property="og:image" content="http://yoursite.com/images/RMSprop.png">
+<meta property="og:image" content="http://yoursite.com/images/adam.png">
+<meta property="og:image" content="http://yoursite.com/images/gradientoptimal.gif">
+<meta property="og:updated_time" content="2018-08-20T11:35:17.965Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="对偶学习论文笔记">
+<meta name="twitter:title" content="梯度下降算法及优化">
+<meta name="twitter:description" content="问题介绍绝大部分优化问题都可以转化为下面的问题：给定一个与参数$\theta$有关的目标函数$J(\theta)$，求使得J最小的参数$\theta$。针对此类问题，梯度下降通过往梯度的负方向移动参数来求解。 梯度下降算法变种 梯度下降算法主要有三种变种，主要区别是使用多少数据来计算目标函数的梯度。不同的方法是在准确性和优化速度之间进行权衡。  Batch gradient descent（BSG">
+<meta name="twitter:image" content="http://yoursite.com/images/momentum.jpg">
 
 
 
@@ -116,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/08/08/对偶学习笔记/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/08/20/梯度下降算法及优化/"/>
 
 
 
 
 
-  <title>对偶学习论文笔记 | Hanjie's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>梯度下降算法及优化 | Hanjie's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -229,7 +238,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/08/对偶学习笔记/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/20/梯度下降算法及优化/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Hanjie WU">
@@ -246,7 +255,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">对偶学习论文笔记</h1>
+          <h1 class="post-title" itemprop="name headline">梯度下降算法及优化</h1>
         
 
         <div class="post-meta">
@@ -258,8 +267,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-08T19:40:12+08:00">
-                2018-08-08
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-20T18:32:22+08:00">
+                2018-08-20
               </time>
             
 
@@ -296,13 +305,35 @@
       
 
       
-        
-
-	<div class="row">
-    <embed src="\pdf\dualReport.pdf" width="100%" height="550" type="application/pdf">
-	</div>
-
-
+        <h2 id="问题介绍"><a href="#问题介绍" class="headerlink" title="问题介绍"></a>问题介绍</h2><p>绝大部分优化问题都可以转化为下面的问题：<br>给定一个与参数$\theta$有关的目标函数$J(\theta)$，求使得J最小的参数$\theta$。针对此类问题，梯度下降通过往梯度的负方向移动参数来求解。</p>
+<h2 id="梯度下降算法变种"><a href="#梯度下降算法变种" class="headerlink" title="梯度下降算法变种"></a>梯度下降算法变种</h2><p> 梯度下降算法主要有三种变种，主要区别是<strong>使用多少数据来计算目标函数的梯度</strong>。不同的方法是在准确性和优化速度之间进行权衡。</p>
+<ol>
+<li><p>Batch gradient descent（BSG）<br>需要<strong>计算整个训练集的梯度</strong>，即：$\theta = \theta -\eta \nabla_{\theta}J(\theta)$,其中$\eta$为学习率，用来控制更新的步长。<br><strong>优点</strong>：<br>对于凸目标函数，可以保证全局最优。对于非凸的目标函数，可以保证局部最优。<br><strong>缺点</strong>：<br>速度慢，数据量大时不可行。无法处理动态产生的新样本。</p>
+</li>
+<li><p>Stochastic gradient descent（SGD）<br>需要<strong>计算某个样本的梯度</strong>，即针对某一个训练样本$x^i$及其标签$y^i$更新参数：$\theta = \theta -\eta \nabla_{\theta}J(\theta;x^i,y^i)$<br><strong>优点</strong>：<br>更新频次块，优化速度快，可以在线优化。一定的随机性导致有几率跳出局部最优解（随机性来自用一个样本的梯度去代替全部样本的梯度）<br><strong>缺点</strong>：<br>随机性可能导致收敛复杂化，即使到达最优点仍然会进行过度优化，因此SGD优化过程充满振荡。</p>
+</li>
+<li><p>mini-batch gradient descent（MBGD)<br>计算包含n个样本的mini-batch的梯度：$\theta = \theta -\eta\nabla_{\theta}J(\theta;x^{(i:i+n)},y^{(i:i+n)})$<br>目前最常用的训练神经网络的优化方法。<br><strong>优点</strong>：<br>参数更新时的动荡变小，收敛过程更稳定。</p>
+</li>
+</ol>
+<h2 id="挑战"><a href="#挑战" class="headerlink" title="挑战"></a>挑战</h2><ul>
+<li>如何选择合适的学习率</li>
+<li>如何调整学习率的变化</li>
+<li>对所有参数是否应该采用不同的学习率，假设数据特征稀疏且分布不均，我们似乎应该给较少出现的特征一个大的更新。</li>
+<li>如何找到全局最优解。神经网络作为严重非凸的函数，我们的优化过程非常容易陷入局部最优解。实际上，优化目标函数中最困难的是陷入鞍点，而不是局部极小值。鞍点周围通常拥有相同的损失函数值，这导致SGD很难优化，因为各个方向的梯度都接近于0。</li>
+</ul>
+<h2 id="梯度下降优化算法"><a href="#梯度下降优化算法" class="headerlink" title="梯度下降优化算法"></a>梯度下降优化算法</h2><ol>
+<li>Momentum<br><img src="\images\momentum.jpg" alt=""><br><strong>动量的引入是为了加速SGD的优化过程。</strong><script type="math/tex; mode=display">\nu_t = \gamma\nu_{t-1} + \eta \nabla_{\theta}J(\theta)</script><script type="math/tex; mode=display">\theta = \theta - \nu_t</script>利用惯性，即当前梯度与上次梯度进行加权，如果方向一致，则累加导致更新步长变大；如果方向不同，则相互抵消中和导致更新趋向平衡。动量$\gamma$常被设定为0.9。</li>
+<li>Nesterov accelerated gradient<br><img src="\images\nesterov.jpg" alt=""><script type="math/tex; mode=display">\nu_t = \gamma\nu_{t-1} + \eta \nabla_{\theta}J(\theta-\gamma\nu_{t-1})</script><script type="math/tex; mode=display">\theta = \theta - \nu_t</script>同带动量的SGD相比，梯度不是根据当前位置$\theta$计算出来的，而是在移动之后的位置$(\theta - \gamma v_{t-1})$<br>改进的目的就是为了提前看到前方的梯度。如果前方的梯度和当前梯度目标一致，那我直接大步迈过去； 如果前方梯度同当前梯度不一致，那我就小心点更新。</li>
+<li>Adagrad<br>为应对出现频率不高的参数提供一个大学习率，为经常出现的参数提供较小的学习率的情况。<script type="math/tex; mode=display">\theta_{t+1,i} = \theta_{t,i} - \frac{\eta }{\sqrt{G_{t,ii} + \epsilon}}\nabla_{\theta}J(\theta_{t,i})</script>其中$G_t$为一个对角矩阵，其对角上的每一个元素$G_{t,ii}$为t时刻前所有施加到参数$\theta_i$上的梯度的平方和（累加的，每个值都是递增的）$\epsilon$用来防止除0操作，通常设置为$10^{-8}$。<ul>
+<li>经常出现(累积梯度大)的参数的学习率会被拉低，较少出现(累积梯度小)的参数的学习率会被拉高</li>
+<li>随着训练次数增加，累积梯度肯定会上升，导致分母变大，则<strong>学习率会自动下降</strong>。因此，Adagrad可以自动调节学习率，而我们只需给其一个初始学习率即可</li>
+<li>同样是随着训练参数增加，学习率会下降的很快，这可能导致后期学习率过低而学不到东西。 </li>
+</ul>
+</li>
+<li>RMSprop<br>由于Adagrad采用了以往所有梯度平方之和，因此会导致累计梯度持续增加，最后因为学习率过低而学不到东西。RMSprop： <strong>仅采用一个窗口范围内的梯度平方之和。</strong><br><img src="\images\RMSprop.png" alt=""><br>实验证明对于RNN效果很好。</li>
+<li>Adam<br>带动量的RMSprop<br><img src="\images\adam.png" alt=""></li>
+</ol>
+<p><strong>自适应优化算法训练出来的结果通常都不如SGD，尽管这些自适应优化算法在训练时表现的看起来更好。 使用者应当慎重使用自适应优化算法。</strong><br><img src="\images\gradientoptimal.gif" alt=""></p>
 
       
     </div>
@@ -327,14 +358,18 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2018/08/20/深度学习基础/" rel="next" title="常见CNN网络架构总结">
+                <i class="fa fa-chevron-left"></i> 常见CNN网络架构总结
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/08/09/ 大数据与大计算——Hadoop和MapReduce/" rel="prev" title="大数据与大计算——Hadoop和MapReduce">
-                大数据与大计算——Hadoop和MapReduce <i class="fa fa-chevron-right"></i>
+              <a href="/2018/08/20/CNN设计原则/" rel="prev" title="20180820194153">
+                20180820194153 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -387,8 +422,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -450,6 +494,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题介绍"><span class="nav-number">1.</span> <span class="nav-text">问题介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#梯度下降算法变种"><span class="nav-number">2.</span> <span class="nav-text">梯度下降算法变种</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#挑战"><span class="nav-number">3.</span> <span class="nav-text">挑战</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#梯度下降优化算法"><span class="nav-number">4.</span> <span class="nav-text">梯度下降优化算法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

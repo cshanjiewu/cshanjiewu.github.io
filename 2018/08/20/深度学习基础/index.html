@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Computer Science" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="AlexNet在当时与传统方法比较，体现了极大的优势，让深度学习又一次被推上了风口浪尖。网络结构简单说：五层卷积+池化、两层全连接、一层softmax。亮点：  采用ReLu激活函数 多GPU并行计算 重叠池化，池化移动的步长小于池化的边长 数据增强 Dropout  VGG目前网络改造的首选框架，整个网络使用同样大小的卷积核尺寸3x3和最大池化尺寸2x2。1x1卷积核跨通道组织信息，可以对输出通">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见CNN网络架构总结">
+<meta property="og:url" content="http://yoursite.com/2018/08/20/深度学习基础/index.html">
+<meta property="og:site_name" content="Hanjie&#39;s Blog">
+<meta property="og:description" content="AlexNet在当时与传统方法比较，体现了极大的优势，让深度学习又一次被推上了风口浪尖。网络结构简单说：五层卷积+池化、两层全连接、一层softmax。亮点：  采用ReLu激活函数 多GPU并行计算 重叠池化，池化移动的步长小于池化的边长 数据增强 Dropout  VGG目前网络改造的首选框架，整个网络使用同样大小的卷积核尺寸3x3和最大池化尺寸2x2。1x1卷积核跨通道组织信息，可以对输出通">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/images/AlexNet.png">
+<meta property="og:image" content="http://yoursite.com/images/vgg.png">
+<meta property="og:image" content="http://yoursite.com/images/googLenet_v1.jpg">
+<meta property="og:image" content="http://yoursite.com/images/v1.png">
+<meta property="og:image" content="http://yoursite.com/images/v2.png">
+<meta property="og:image" content="http://yoursite.com/images/v3.png">
+<meta property="og:image" content="http://yoursite.com/images/v4.png">
+<meta property="og:image" content="http://yoursite.com/images/resnet_example.png">
+<meta property="og:image" content="http://yoursite.com/images/resnet.png">
+<meta property="og:image" content="http://yoursite.com/images/resnet32.png">
+<meta property="og:image" content="http://yoursite.com/images/resnet_threelayer.png">
+<meta property="og:image" content="http://yoursite.com/images/resnext.jpg">
+<meta property="og:updated_time" content="2018-08-20T11:52:53.473Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="常见CNN网络架构总结">
+<meta name="twitter:description" content="AlexNet在当时与传统方法比较，体现了极大的优势，让深度学习又一次被推上了风口浪尖。网络结构简单说：五层卷积+池化、两层全连接、一层softmax。亮点：  采用ReLu激活函数 多GPU并行计算 重叠池化，池化移动的步长小于池化的边长 数据增强 Dropout  VGG目前网络改造的首选框架，整个网络使用同样大小的卷积核尺寸3x3和最大池化尺寸2x2。1x1卷积核跨通道组织信息，可以对输出通">
+<meta name="twitter:image" content="http://yoursite.com/images/AlexNet.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/20/深度学习基础/"/>
+
+
+
+
+
+  <title>常见CNN网络架构总结 | Hanjie's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hanjie's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Do what you like to do!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/20/深度学习基础/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hanjie WU">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hanjie's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">常见CNN网络架构总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-20T09:32:45+08:00">
+                2018-08-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="AlexNet"><a href="#AlexNet" class="headerlink" title="AlexNet"></a>AlexNet</h2><p><img src="\images\AlexNet.png" alt=""><br>在当时与传统方法比较，体现了极大的优势，让深度学习又一次被推上了风口浪尖。<br>网络结构简单说：五层卷积+池化、两层全连接、一层softmax。<br>亮点：</p>
+<ul>
+<li>采用ReLu激活函数</li>
+<li>多GPU并行计算</li>
+<li>重叠池化，池化移动的步长小于池化的边长</li>
+<li>数据增强</li>
+<li>Dropout</li>
+</ul>
+<h2 id="VGG"><a href="#VGG" class="headerlink" title="VGG"></a>VGG</h2><p><img src="\images\vgg.png" alt=""><br>目前网络改造的首选框架，整个网络使用同样大小的卷积核尺寸3x3和最大池化尺寸2x2。1x1卷积核跨通道组织信息，可以对输出通道进行升维或降维。<br>亮点：</p>
+<ul>
+<li>一个大的卷积核分解成多个小的卷积核。在保证相同感受野的同时，减少参数。例如两个连续的3x3的卷积相当于一个5x5的卷积，三个连续的3x3的卷积相当于一个7x7的卷积（假设输入输出的通道数都为C时，3个3x3的卷积需要的参数量是3x（3x3xCxC）=27xCxC，使用1个7x7的卷积需要7x7xCxC=49xCxC）。并且多层的卷积增加网络的深度，可以学习更复杂的特征。唯一不足的是在反向传播时，中间的卷积层可能会导致占用更多的内存。<h2 id="GoogLeNet"><a href="#GoogLeNet" class="headerlink" title="GoogLeNet"></a>GoogLeNet</h2><img src="\images\googLenet_v1.jpg" alt=""><br>GoogLeNet的深度虽然有22层，但参数大小却比AlexNet和VGG小，个人认为主要是在网络中采取了1x1卷积来减少特征图的厚度和使用global average pooling来代替全连接层，这两个方面导致参数量的减少。<br>为了避免梯度消失，网络额外增加了2个辅助的softmax用于向前传导梯度（辅助分类器）。辅助分类器是将中间某一层的输出用作分类，并按一个较小的权重（0.3）加到最终分类结果中，这样相当于做了模型融合，同时给网络增加了反向传播的梯度信号，也提供了额外的正则化，对于整个网络的训练很有裨益。而在实际测试的时候，这两个额外的softmax会被去掉。</li>
+</ul>
+<h3 id="Inception-V1"><a href="#Inception-V1" class="headerlink" title="Inception V1"></a>Inception V1</h3><p><img src="\images\v1.png" alt=""><br>该结构将CNN中常用的卷积（1x1，3x3，5x5）、池化操作（3x3）堆叠在一起（<strong>卷积、池化后的尺寸相同，将通道相加</strong>），一方面增加了网络的宽度，另一方面也增加了网络对尺度的适应性。1*1卷积是为了降低特征图厚度。</p>
+<h3 id="Inception-V2"><a href="#Inception-V2" class="headerlink" title="Inception V2"></a>Inception V2</h3><p><img src="\images\v2.png" alt=""><br>inception V2 学习了 <strong>VGG </strong>用两个3x3的卷积代替5x5的大卷积，在降低参数的同时建立了更多的非线性变换，使得 CNN 对特征的学习能力更强。另外提出了著名的 <strong>Batch Normalization</strong>方法，进行正则化。</p>
+<h3 id="Inception-V3"><a href="#Inception-V3" class="headerlink" title="Inception V3"></a>Inception V3</h3><p><img src="\images\v3.png" alt=""><br>引入了 <strong>Factorization into small convolutions</strong> 的思想，将一个较大的二维卷积拆成两个较小的一维卷积，比如将7x7卷积拆成1x7卷积和7x1卷积，或者将3x3卷积拆成1x3卷积和3x1卷积，如上图所示。一方面节约了大量参数，加速运算并减轻了过拟合（比将7x7卷积拆成1x7卷积和7x1卷积，比拆成3个3x3卷积更节约参数），同时增加了一层非线性扩展模型表达能力。**对于中度大小的特征图上使用效果才会更好，对于大小m x m大小的特征图，建议m在12到20之间。</p>
+<h3 id="Inception-V4"><a href="#Inception-V4" class="headerlink" title="Inception V4"></a>Inception V4</h3><p><img src="\images\v4.png" alt=""><br>利用残差连接结构改进V3</p>
+<h2 id="ResNet"><a href="#ResNet" class="headerlink" title="ResNet"></a>ResNet</h2><p>对常规的网络（plain network，也称平原网络）直接堆叠很多层次，经对图像识别结果进行检验，训练集、测试集的误差结果如下图：<br><img src="\images\resnet_example.png" alt=""><br>随着网络层级的不断增加，模型精度不断得到提升，而当网络层级增加到一定的数目以后，训练精度和测试精度迅速下降，这说明当网络变得很深以后，深度网络就变得更加难以训练了。<br><img src="\images\resnet.png" alt=""><br>假设现有一个比较浅的网络（Shallow Net）已达到了饱和的准确率，这时在它后面再加上几个恒等映射层（Identity mapping，也即y=x，输出等于输入），这样就增加了网络的深度，并且起码误差不会增加，也即更深的网络不应该带来训练集上误差的上升。而这里提到的使用恒等映射直接将前一层输出传到后面的思想，便是著名深度残差网络ResNet的灵感来源。<br>在上图的残差网络结构图中，通过“shortcut connections（捷径连接）”的方式，直接把输入x传到输出作为初始结果，输出结果为H(x)=F(x)+x，当F(x)=0时，那么H(x)=x，也就是上面所提到的恒等映射。于是，<strong>ResNet相当于将学习目标改变了，不再是学习一个完整的输出，而是目标值H(X)和x的差值</strong>，也就是所谓的残差F(x) := H(x)-x，因此，后面的训练目标就是要将残差结果逼近于0，使到随着网络加深，准确率不下降。<br><img src="\images\resnet32.png" alt=""></p>
+<ul>
+<li>实线的Connection部分，表示通道相同，如上图的第一个粉色矩形和第三个粉色矩形，都是3x3x64的特征图，由于通道相同，所以采用计算方式为H(x)=F(x)+x</li>
+<li>虚线的的Connection部分，表示通道不同，如上图的第一个绿色矩形和第三个绿色矩形，分别是3x3x64和3x3x128的特征图，通道不同，采用的计算方式为H(x)=F(x)+Wx，其中W是卷积操作，用来调整x维度的。<br><img src="\images\resnet_threelayer.png" alt=""><br>两种结构分别针对ResNet34（左图）和ResNet50/101/152（右图），其目的主要就是为了降低参数的数目。左图是两个3x3x256的卷积，参数数目: 3x3x256x256x2 = 1179648，右图是第一个1x1的卷积把256维通道降到64维，然后在最后通过1x1卷积恢复，整体上用的参数数目：1x1x256x64 + 3x3x64x64 + 1x1x64x256 = 69632，右图的参数数量比左图减少了16.94倍，因此，<strong>右图的主要目的就是为了减少参数量，从而减少计算量</strong><h2 id="ResNext"><a href="#ResNext" class="headerlink" title="ResNext"></a>ResNext</h2><img src="\images\resnext.jpg" alt=""><br>利用Inception系列网络的split-transform-merge策略，但是 Inception系列网络有个问题：网络的超参数设定的针对性比较强，当应用在别的数据集上时需要修改许多参数，因此可扩展性一般。这里的网络架构使用拓扑结构一致的组件组成网络。<br><strong>作者的核心创新点就在于提出了 aggregrated transformations，用一种平行堆叠相同拓扑结构的blocks代替原来 ResNet 的三层卷积的block，在不明显增加参数量级的情况下提升了模型的准确率，同时由于拓扑结构相同，超参数也减少了。</strong></li>
+</ul>
+<h2 id="CNN设计一些准则"><a href="#CNN设计一些准则" class="headerlink" title="CNN设计一些准则"></a>CNN设计一些准则</h2><ol>
+<li>卷积过程中，空间尺寸H x W逐渐变小，输出通道数C逐渐变多。整体来说H x W x C缓慢变小。</li>
+<li>主要是输入通道数和输出通道数对参数计算量造成影响，而这些通道数是人为可调的，所以要把参数计算量控制在可控范围内。</li>
+<li>感受野足够大，使用多个小尺寸卷积核</li>
+<li>可按通道分组</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/15/神经网络正则化/" rel="next" title="神经网络正则化">
+                <i class="fa fa-chevron-left"></i> 神经网络正则化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/20/梯度下降算法及优化/" rel="prev" title="梯度下降算法及优化">
+                梯度下降算法及优化 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Hanjie WU" />
+            
+              <p class="site-author-name" itemprop="name">Hanjie WU</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/cshanjiewu" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:cshanjiewu@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#AlexNet"><span class="nav-number">1.</span> <span class="nav-text">AlexNet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VGG"><span class="nav-number">2.</span> <span class="nav-text">VGG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GoogLeNet"><span class="nav-number">3.</span> <span class="nav-text">GoogLeNet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Inception-V1"><span class="nav-number">3.1.</span> <span class="nav-text">Inception V1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Inception-V2"><span class="nav-number">3.2.</span> <span class="nav-text">Inception V2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Inception-V3"><span class="nav-number">3.3.</span> <span class="nav-text">Inception V3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Inception-V4"><span class="nav-number">3.4.</span> <span class="nav-text">Inception V4</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ResNet"><span class="nav-number">4.</span> <span class="nav-text">ResNet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ResNext"><span class="nav-number">5.</span> <span class="nav-text">ResNext</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CNN设计一些准则"><span class="nav-number">6.</span> <span class="nav-text">CNN设计一些准则</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hanjie WU</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>
