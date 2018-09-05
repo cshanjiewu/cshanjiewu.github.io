@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Computer Science" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="记录大部分来自一篇Survey，文章总结了目前最常见的12种攻击方法和15种防御方法。参考文献：Threat of Adversarial Attacks on Deep Learning in Computer Vision: A Survey 现有的攻击方法现有攻击方法文章中针对分类问题共列出来12种，并讨论了其他问题的攻击。攻击分为实验环境和现实环境。 实验环境下 分类问题 Box-cons">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机视觉深度学习中对抗攻击的威胁">
+<meta property="og:url" content="http://yoursite.com/2018/09/05/计算机视觉深度学习中对抗攻击的威胁/index.html">
+<meta property="og:site_name" content="Hanjie&#39;s Blog">
+<meta property="og:description" content="记录大部分来自一篇Survey，文章总结了目前最常见的12种攻击方法和15种防御方法。参考文献：Threat of Adversarial Attacks on Deep Learning in Computer Vision: A Survey 现有的攻击方法现有攻击方法文章中针对分类问题共列出来12种，并讨论了其他问题的攻击。攻击分为实验环境和现实环境。 实验环境下 分类问题 Box-cons">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/images/bfgs.png">
+<meta property="og:image" content="http://yoursite.com/images/onepixelattack.png">
+<meta property="og:image" content="http://yoursite.com/images/adversarialdefence.png">
+<meta property="og:updated_time" content="2018-09-05T06:20:04.780Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="计算机视觉深度学习中对抗攻击的威胁">
+<meta name="twitter:description" content="记录大部分来自一篇Survey，文章总结了目前最常见的12种攻击方法和15种防御方法。参考文献：Threat of Adversarial Attacks on Deep Learning in Computer Vision: A Survey 现有的攻击方法现有攻击方法文章中针对分类问题共列出来12种，并讨论了其他问题的攻击。攻击分为实验环境和现实环境。 实验环境下 分类问题 Box-cons">
+<meta name="twitter:image" content="http://yoursite.com/images/bfgs.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/05/计算机视觉深度学习中对抗攻击的威胁/"/>
+
+
+
+
+
+  <title>计算机视觉深度学习中对抗攻击的威胁 | Hanjie's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hanjie's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Do what you like to do!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/05/计算机视觉深度学习中对抗攻击的威胁/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hanjie WU">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hanjie's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">计算机视觉深度学习中对抗攻击的威胁</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-05T10:28:40+08:00">
+                2018-09-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>记录大部分来自一篇Survey，文章总结了目前最常见的12种攻击方法和15种防御方法。<br>参考文献：<a href="https://arxiv.org/abs/1801.00553" target="_blank" rel="noopener">Threat of Adversarial Attacks on Deep Learning in Computer Vision: A Survey</a></p>
+<h3 id="现有的攻击方法"><a href="#现有的攻击方法" class="headerlink" title="现有的攻击方法"></a>现有的攻击方法</h3><p>现有攻击方法文章中针对分类问题共列出来12种，并讨论了其他问题的攻击。攻击分为<strong>实验环境和现实环境。</strong></p>
+<h4 id="实验环境下-分类问题"><a href="#实验环境下-分类问题" class="headerlink" title="实验环境下 分类问题"></a>实验环境下 分类问题</h4><ol>
+<li><strong>Box-constrained L-BFGS</strong> <a href="https://arxiv.org/abs/1312.6199" target="_blank" rel="noopener">https://arxiv.org/abs/1312.6199</a><br>Szegedy等人首次证明了可以通过对图像添加小量的人类察觉不到的扰动误导神经网络做出误分类。他们首先尝试求解让神经网络做出误分类的最小扰动的方程。但由于问题的复杂度太高，他们转而求解简化后的问题，即寻找最小的损失函数添加项，使得神经网络做出误分类，这就将问题转化成了<strong>凸优化过程。</strong><br><img src="\images\bfgs.png" alt=""></li>
+<li><strong>Fast Gradient Sign Method (FGSM)</strong> <a href="https://arxiv.org/abs/1412.6572" target="_blank" rel="noopener">https://arxiv.org/abs/1412.6572</a><br>Szegedy 等人发现可以通过<strong>对抗训练提高深度神经网络的鲁棒性</strong>，从而提升防御对抗样本攻击的能力。GoodFellow等人开发了一种能有效计算对抗扰动的方法。而求解对抗扰动的方法在原文中就被称为 FGSM。FGSM方法证实了设现代深层神经网络的设计的高维线性。<br>Kurakin等人提出了 FGSM 的「one-step target class」的变体。<strong>通过用识别概率最小的类别（目标类别）代替对抗扰动中的类别变量，再将原始图像减去该扰动，原始图像就变成了对抗样本，并能输出目标类别。</strong><br>学者们还试验了利用不同的范式进行归一化后的结果进行生成对抗样本。</li>
+<li><strong>Basic &amp; Least-Likely-Class Iterative Methods</strong> <a href="https://arxiv.org/abs/1607.02533" target="_blank" rel="noopener">https://arxiv.org/abs/1607.02533</a><br>one-step 方法通过沿一方向做一大步运算，增大分类器的损失函数而进行图像扰动，<strong>这个想法的一个直观的扩展为通过多个小步增大损失函数的变体，从而我们得到 Basic Iterative Methods（BIM）。</strong>而该方法的变体和前述方法类似，通过用识别概率最小的类别（目标类别）代替对抗扰动中的类别变量，而得到 Least-Likely-Class Iterative Methods(ILCM)，由该方法生成的对抗样本已经让Inception v3模型受到了严重影响。</li>
+<li><strong>Jacobian-based Saliency Map Attack (JSMA)</strong> <a href="https://arxiv.org/abs/1511.07528" target="_blank" rel="noopener">https://arxiv.org/abs/1511.07528</a><br>对抗攻击文献中通常使用的方法是限制扰动的l∞或l2范数的值以使对抗样本中的扰动无法被人察觉。但<strong>JSMA提出了限制扰动的l0范数的方法来产生对抗性攻击。</strong>在物理上，这意味着目标是只修改图像中的几个像素，而不是扰乱整个图像来欺骗分类器。<br>算法生成所需的对抗性图像的关键可以理解如下。该算法一次修改一个干净图像的像素，并监测变化对结果分类的影响。通过使用网络层的输出的梯度来计算一个显著性图来执行监控。在这张图中，一个较大的值显示出了一个较高的可能性预测成目标类别，而非正确的类别。因此，该算法执行有针对性的欺骗。一旦计算出像素图，算法选择最有效的像素来欺骗网络并改变它。这个过程会重复，直到最大允许的像素数量在对抗性图像中被改变或者在欺骗成功。</li>
+<li><strong>One Pixel Attack</strong> <a href="https://arxiv.org/abs/1710.08864" target="_blank" rel="noopener">https://arxiv.org/abs/1710.08864</a><br>这是一种极端的对抗攻击方法，仅改变图像中的一个像素值就可以实现对抗攻击。<strong>Su等人使用了差分进化算法</strong>，对每个像素进行迭代地修改生成子图像，并与母图像对比，根据选择标准保留攻击效果最好的子图像，实现对抗攻击。<strong>这种对抗攻击不需要知道网络参数或梯度的任何信息。</strong>下面为图例：<br><img src="\images\onepixelattack.png" alt=""></li>
+<li><strong>Carlini and Wagner Attacks (C&amp;W)</strong> <a href="https://arxiv.org/abs/1608.04644" target="_blank" rel="noopener">https://arxiv.org/abs/1608.04644</a><br>Carlini 和 Wagner提出了三种对抗攻击方法，<strong>通过限制 l∞、l2和l0范数使得扰动近似无法被察觉。</strong>实验证明 defensive distillation完全无法防御这三种攻击。该算法生成的对抗扰动可以从 unsecured 的网络（没有蒸馏）迁移到 secured 的网络（蒸馏）上，从而实现黑箱攻击。<br>受C&amp;W启发，有学者提出了Zeroth Order Optimization (ZOO)方法，直接估计目标模型的梯度来生成对抗样本。</li>
+<li><strong>DeepFool</strong> <a href="https://arxiv.org/abs/1511.04599" target="_blank" rel="noopener">https://arxiv.org/abs/1511.04599</a><br>Moosavi-Dezfooli 等人通过迭代计算的方法生成最小规范对抗扰动，该算法通过一个小的向量来扰动图像，将位于分类边界内的图像逐步推到边界外，直到出现错误分类。作者证明他们生成的扰动比 FGSM 更小，同时有相似的欺骗率。</li>
+<li><strong>Universal Adversarial Perturbations</strong> <a href="https://arxiv.org/abs/1610.08401" target="_blank" rel="noopener">https://arxiv.org/abs/1610.08401</a><br>诸如 FGSM 、 ILCM 、 DeepFool 等方法只能生成单张图像的对抗扰动，<strong>而 Universal Adversarial Perturbations 能生成对任何图像实现攻击的扰动，</strong>这些扰动同样对人类是几乎不可察觉的。该论文中使用的迭代方法和 DeepFool 相似，都是用对抗扰动将图像推出分类边界，不过同一个扰动针对的是所有的图像。虽然文中只针对单个网络（ ResNet）进行攻击，但已证明这种扰动可以泛化到其它网络上，尤其是具有相似结构的网络。<br>此外，作者还扩展了一个方法doubly universal；<a href="https://arxiv.org/abs/1709.03582" target="_blank" rel="noopener">Khrulkov等</a>也提出了一种方法，将通用扰动作为网络的特征映射的雅可比矩阵的奇异向量，这使得仅使用少量图像就可以实现相对较高的欺骗率。另一种产生通用扰动的方法是<a href="https://arxiv.org/abs/1707.05572" target="_blank" rel="noopener">Mopuri等</a>的快速特性。它们的方法产生了独立于数据的通用扰动。下面为图例：</li>
+<li><strong>UPSET and ANGRI</strong> <a href="https://arxiv.org/abs/1707.01159" target="_blank" rel="noopener">https://arxiv.org/abs/1707.01159</a><br>Sarkar等人提出了两个黑箱攻击算法，UPSET （ Universal Perturbations for Steering to Exact Targets）和 ANGRI（Antagonistic Network for Generating Rogue Images for targeted fooling of deep neural networks）。<strong>UPSET 的能力来源于残差梯度网络，可以为特定的目标类别生成对抗扰动，使得该扰动添加到任何图像时都可以将该图像分类成目标类别。</strong>相对于 UPSET 的「图像不可察觉」扰动，ANGRI 生成的是「图像特定」的扰动。它们都在 MNIST 和 CIFAR 数据集上获得了高欺骗率。</li>
+<li><strong>Houdini</strong> <a href="https://arxiv.org/abs/1707.05373" target="_blank" rel="noopener">https://arxiv.org/abs/1707.05373</a><br>Houdini是<strong>一种用于欺骗基于梯度的机器学习算法的方法</strong>，通过生成特定于任务损失函数的对抗样本实现对抗攻击，即利用网络的可微损失函数的梯度信息生成对抗扰动。除了图像分类网络，该算法还可以用于欺骗语音识别网络（谷歌语音等）。</li>
+<li><strong>Adversarial Transformation Networks (ATNs)</strong> <a href="https://arxiv.org/abs/1703.09387" target="_blank" rel="noopener">https://arxiv.org/abs/1703.09387</a><br>Baluja 和 Fischer训练了多个前馈神经网络来生成对抗样本，可用于攻击一个或多个目标网络。<strong>经过训练的模型被称为对抗变换网络(ATNs)。该算法通过最小化一个联合损失函数来生成对抗样本，该损失函数有两个部分，第一部分使对抗样本和原始图像保持相似，第二部分使对抗样本被错误分类。</strong><br><strong>生成对抗样本的模型时残差网络和标准的自编码器。</strong><br>同样的研究方向， <a href="https://arxiv.org/abs/1708.05207" target="_blank" rel="noopener">Hayex and Danezis</a>同样用攻击神经网络训练对抗样本进行黑盒攻击，近期结果表明，虽然生成的对抗样本仍旧可察觉和原始图像的区别，但是欺骗率非常的高。</li>
+<li><strong>Miscellaneous Attacks 其它攻击</strong><br>除了常见的12种攻击方法，还有以下研究攻击手段：</li>
+</ol>
+<p><a href="https://arxiv.org/abs/1511.05122" target="_blank" rel="noopener">Sabour等人</a><strong>通过改变深层神经网络的内部层</strong>，展示了产生对抗性的例子的可能性。作者证明了将对抗性图像表示的内部网络用来类似来自不同类的图像的表示的方法是可实现的。</p>
+<p><a href="https://arxiv.org/abs/1605.07277" target="_blank" rel="noopener">Papernot等</a>研究了对抗性攻击对深度学习和其他机器学习技术的可转移性，并引入了进一步的<strong>可转移性攻击。</strong></p>
+<p><a href="https://arxiv.org/abs/1612.06299" target="_blank" rel="noopener">Narodytska和Kasiviswanathan</a>也引入了进一步的黑盒攻击，这些攻击通过改变图像中仅有的几个像素值，有效地欺骗了神经网络。</p>
+<p><a href="https://arxiv.org/abs/1711.05934" target="_blank" rel="noopener">Liu等人</a>介绍了“爱扑塞隆社区”的攻击，这种攻击被证明可以欺骗防御性的蒸馏网络，在白盒攻击中取得了100%的成功。</p>
+<p><a href="https://arxiv.org/abs/1703.09471" target="_blank" rel="noopener">Oh等人</a>从<strong>博弈论</strong>的角度对对抗性攻击进行了分析，并提出了一种策略来对抗针对深度神经网络的对抗性攻击所采取的对抗措施。</p>
+<p><a href="https://arxiv.org/abs/1707.05572" target="_blank" rel="noopener">Mpouri等</a>开发了一种数据独立的方法来为深层网络模型生成<strong>通用的对抗扰动</strong></p>
+<p><a href="https://arxiv.org/abs/1703.06857" target="_blank" rel="noopener">Hosseini等人</a>引入了语义对抗样本——输入图像代表人类的语义相同但深层神经网络对它们错误分类的对象。他们使用图像的底片作为语义对抗样本。</p>
+<p><a href="https://arxiv.org/abs/1711.09115" target="_blank" rel="noopener">Kanbak等</a>在DeepFool方法之后引入了<strong>ManiFool算法，用于测量深度神经网络对几何扰动图像的鲁棒性。</strong></p>
+<p><a href="https://arxiv.org/abs/1710.06081" target="_blank" rel="noopener">Dong等</a>提出了一种迭代方法来提高对黑盒场景的对抗性攻击。</p>
+<p><a href="https://arxiv.org/abs/1709.10207" target="_blank" rel="noopener">Carlini和Wagner</a>也证明了10种不同的对扰动的防御可以再次被使用新的损失函数攻击所击败。</p>
+<p><a href="https://arxiv.org/abs/1605.01775" target="_blank" rel="noopener">Rozsa等</a>还提出了一种热/冷方法，用于生成单个图像的多个可能的对抗样本。有趣的是，对抗的扰动不仅被添加到图像中，还降低了深度学习分类器的准确性。</p>
+<p><a href="https://arxiv.org/abs/1711.09681" target="_blank" rel="noopener">Yoo等人</a>最近提出了一种方法，在对图像的细微扰动的帮助下，对每一项的分类也稍加改进。</p>
+<h4 id="实验室环境下-其他问题"><a href="#实验室环境下-其他问题" class="headerlink" title="实验室环境下 其他问题"></a>实验室环境下 其他问题</h4><p>许多工作的作者已经公开了其实现的<strong>源代码</strong>，可以去相关网站下载，下面是除<strong>分类问题以外</strong>的对抗攻击：</p>
+<p><strong>Attacks on Autoencoders and Generative Models 在自编码器和生成模型上的攻击</strong><br><a href="http://arxiv.org/abs/1612.00155" target="_blank" rel="noopener">Tabacof等</a>研究了自动编码器的对抗性攻击，并提出了一种扭曲输入图像(使其对抗性)的技术，从而误导自动编码器重构完全不同的图像。他们的方法攻击了神经网络的内部表示，使得对抗性图像的表示与目标图像相似。然而，<a href="http://arxiv.org/abs/1612.00155" target="_blank" rel="noopener">报道</a>称，自动编码器似乎比典型的分类器网络更能抵御对抗性攻击。<a href="https://arxiv.org/abs/1702.06832" target="_blank" rel="noopener">Kos等</a>还探讨了获得GANs模型的对抗样本的方法，例如变分自动编码器(VAE)和VAE-生成的对抗性网络(VAE- gans)。GANs，例如<a href="https://arxiv.org/abs/1312.6114" target="_blank" rel="noopener">方法</a>现在在计算机视觉应用程序中变得非常流行，因为它们能够学习数据分布并使用这些分布生成真实的图像。作者介绍了针对VAE和VAE- gans的三种不同类型的攻击。</p>
+<p><strong>Attack on Recurrent Neural Networks 在循环神经网络上的攻击</strong><br><a href="https://arxiv.org/abs/1604.08275v1" target="_blank" rel="noopener">Papernot等</a>成功地生成了递归神经网络的对抗性输入序列。Papernot等证明了为前馈神经网络计算对抗样本的算法(例如<a href="http://arxiv.org/abs/1412.6572" target="_blank" rel="noopener">FGSM</a>)也适用于欺骗 RNNs。长短时记忆(LSTM) RNN体系结构也成功被欺骗。</p>
+<p><strong>Attacks on Deep Reinforcement Learning 深度强化学习上的攻击</strong><br><a href="http://arxiv.org/abs/1703.06748" target="_blank" rel="noopener">Lin等</a>提出了两种不同的<strong>针对深度强化学习训练的代理的对抗性攻击。</strong>在第一种攻击中，被称为策略定时攻击，对手通过在一段中的一小部分时间步骤中攻击它来最小化对代理的奖励值。提出了一种方法来确定什么时候应该制作和应用对抗样本，从而使攻击不被发现。在第二种攻击中，被称为迷人攻击，对手通过集成生成模型和规划算法将代理引诱到指定的目标状态。生成模型用于预测代理的未来状态，而规划算法生成用于引诱它的操作。这些攻击成功地测试了由最先进的深度强化学习算法训练的代理。</p>
+<p><a href="http://arxiv.org/abs/1702.02284" target="_blank" rel="noopener">Huang等</a>证明了FGSM也可以用于在深度强化学习的背景下显著降低训练策略的性能。他们的威胁模型认为对手能够对政策的原始输入产生微小的扰动。所进行的实验表明，即使在黑箱场景中，也很容易用对抗样本欺骗将神经网络策略。关于这项工作的视频和进一步的细节可以在<a href="http://rll.berkeley.edu/adversarial/" target="_blank" rel="noopener">http://rll.berkeley.edu/adversarial/</a>上找到。</p>
+<p><strong>Attacks on Semantic Segmentation and Object Detection 在语义切割和物体检测上的攻击</strong><br>语义图像分割和对象检测属于计算机视觉的主流问题。<a href="https://arxiv.org/abs/1704.05712v1" target="_blank" rel="noopener">Metzen等</a>[67]受<a href="https://arxiv.org/abs/1610.08401" target="_blank" rel="noopener">Moosavi-Dezfooli</a>的启发，发现了图像近似不可察觉扰动的存在，它可以欺骗一个深层的神经网络，从而明显地破坏图像的预测分割。此外，他们还表明，可以计算出噪声向量，它可以从分割的类中移除特定的类，同时保持图像分割大部分不变(例如，从道路场景中移除行人)。</p>
+<p><a href="http://arxiv.org/abs/1711.09856" target="_blank" rel="noopener">Arnab等</a>也评估了FGSM基于语义分割的对抗性攻击，并指出对这些攻击的许多观察并没有直接转移到分割任务中。</p>
+<p><a href="http://arxiv.org/abs/1703.08603" target="_blank" rel="noopener">Xie等</a>计算了在观察下的语义分割和对象检测的对抗样本，可以将这些任务定义为在图像中对多个目标进行分类——目标是一个像素或一个可接受的分割区域，以及在检测中的 object proposal。他们的方法，称为密集对手生成，通过一组 pixels/proposal来优化一个损失函数，以产生对抗样本。所生成的样本被测试来欺骗各种基于深度学习的分割和检测方法。他们的实验评价不仅证明了目标网络的成功欺骗，还表明了所产生的扰动在不同的网络模型中得到了很好的推广。在图4中，根据该方法，展示了一个用于分割和检测的网络欺骗的典型样本。</p>
+<h4 id="现实场景下的对抗攻击"><a href="#现实场景下的对抗攻击" class="headerlink" title="现实场景下的对抗攻击"></a>现实场景下的对抗攻击</h4><ol>
+<li><strong>Attacks on Face Attributes 面部特征攻击</strong><br>人脸图像的性别(性别分类器)被修改，而人脸匹配系统的生物识别功能保持不变。</li>
+<li><strong>Cell-phone camera attack 手机相机攻击</strong><br><a href="https://arxiv.org/abs/1607.02533" target="_blank" rel="noopener">Kurakin等</a>首先证明了对抗性攻击的威胁也存在于物质世界中。为了说明这一点，他们打印了对抗性的图像，并从手机摄像头拍下了快照。这些图像进行对象分类。结果显示，即使是通过相机，也有很大一部分图像被错误分类。</li>
+<li><strong>Generic adversarial 3D objects 生成敌对3D对象</strong><br><a href="https://arxiv.org/abs/1707.07397" target="_blank" rel="noopener">Athalye等</a>介绍了一种构造三维物体的方法，该方法可以在各种角度和视点上欺骗神经网络。他们的(EOT)框架能够构建在整个图像/对象分布上的对抗样本。他们的端到端方法可以打印任意的对抗3D对象。</li>
+<li><strong>Generic adversarial 3D objects 生成敌对3D对象</strong><br><a href="https://arxiv.org/abs/1707.07397" target="_blank" rel="noopener">Athalye等</a>介绍了一种构造三维物体的方法，该方法可以在各种角度和视点上欺骗神经网络。他们的(EOT)框架能够构建在整个图像/对象分布上的对抗样本。他们的端到端方法可以打印任意的对抗3D对象。</li>
+<li><strong>Robotic Vision &amp; Visual QA Attacks 机器人视觉和视觉QA攻击</strong><br><a href="https://arxiv.org/abs/1708.06939" target="_blank" rel="noopener">Melis等人</a>证明了机器人对输入图像的对抗性操作的脆弱性。<a href="http://arxiv.org/abs/1709.08693" target="_blank" rel="noopener">Xu等</a>对视觉图灵测试产生了对抗性攻击，也称为视觉问题回答(VQA)。作者指出，使用深度神经网络的常用的复合和非复合VQA体系结构容易受到对抗性攻击的攻击。此外，对抗样本可以在模型之间转移。<h3 id="防御方法"><a href="#防御方法" class="headerlink" title="防御方法"></a>防御方法</h3>目前，在对抗攻击防御上存在<strong>三个主要方向</strong>：</li>
+</ol>
+<p>1）在学习过程中修改训练过程或者在测试阶段修改的输入样本。<br>2）修改网络，比如：添加更多层/子网络、改变损失/激活函数等。<br>3）当分类未见过的样本时，用外部模型作为附加网络。</p>
+<p>这些方向具体又可分为（a）完全抵抗（Complete），即能够分对对抗样本的原始类别（b）仅探测方法（Detection only），即只鉴别出哪些是对抗样本。具体分类如下图：<br><img src="\images\adversarialdefence.png" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/03/C-C++知识点总结/" rel="next" title="C/C++知识点总结">
+                <i class="fa fa-chevron-left"></i> C/C++知识点总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Hanjie WU" />
+            
+              <p class="site-author-name" itemprop="name">Hanjie WU</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/cshanjiewu" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:cshanjiewu@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#现有的攻击方法"><span class="nav-number">1.</span> <span class="nav-text">现有的攻击方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#实验环境下-分类问题"><span class="nav-number">1.1.</span> <span class="nav-text">实验环境下 分类问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实验室环境下-其他问题"><span class="nav-number">1.2.</span> <span class="nav-text">实验室环境下 其他问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#现实场景下的对抗攻击"><span class="nav-number">1.3.</span> <span class="nav-text">现实场景下的对抗攻击</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防御方法"><span class="nav-number">2.</span> <span class="nav-text">防御方法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hanjie WU</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

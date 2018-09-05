@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Computer Science" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="c/c++申请动态内存　new/delete和malloc/free的相同之处在于，new和malloc都是手动申请动态内存，释放时new则需要delete释放内存，而malloc则需要free释放内存。　它们的不同之处在于，new和delete会自动调用对象的构造和析构函数，而malloc/free则只申请内存。　另外需要注意的是：new的不是数组的话，则直接delete就好，并且只会调用一次析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C&#x2F;C++知识点总结">
+<meta property="og:url" content="http://yoursite.com/2018/09/03/C-C++知识点总结/index.html">
+<meta property="og:site_name" content="Hanjie&#39;s Blog">
+<meta property="og:description" content="c/c++申请动态内存　new/delete和malloc/free的相同之处在于，new和malloc都是手动申请动态内存，释放时new则需要delete释放内存，而malloc则需要free释放内存。　它们的不同之处在于，new和delete会自动调用对象的构造和析构函数，而malloc/free则只申请内存。　另外需要注意的是：new的不是数组的话，则直接delete就好，并且只会调用一次析">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/images/newdelete.png">
+<meta property="og:image" content="http://yoursite.com/images/hierarchy.png">
+<meta property="og:image" content="http://yoursite.com/images/c++memory_stack_heap.png">
+<meta property="og:image" content="http://yoursite.com/images/copyconstruction.png">
+<meta property="og:image" content="http://yoursite.com/images/overriding.png">
+<meta property="og:updated_time" content="2018-09-04T15:47:24.407Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C&#x2F;C++知识点总结">
+<meta name="twitter:description" content="c/c++申请动态内存　new/delete和malloc/free的相同之处在于，new和malloc都是手动申请动态内存，释放时new则需要delete释放内存，而malloc则需要free释放内存。　它们的不同之处在于，new和delete会自动调用对象的构造和析构函数，而malloc/free则只申请内存。　另外需要注意的是：new的不是数组的话，则直接delete就好，并且只会调用一次析">
+<meta name="twitter:image" content="http://yoursite.com/images/newdelete.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/03/C-C++知识点总结/"/>
+
+
+
+
+
+  <title>C/C++知识点总结 | Hanjie's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hanjie's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Do what you like to do!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/03/C-C++知识点总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hanjie WU">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hanjie's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">C/C++知识点总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-03T21:21:31+08:00">
+                2018-09-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="c-c-申请动态内存"><a href="#c-c-申请动态内存" class="headerlink" title="c/c++申请动态内存"></a>c/c++申请动态内存</h4><p>　new/delete和malloc/free的相同之处在于，new和malloc都是手动申请动态内存，释放时new则需要delete释放内存，而malloc则需要free释放内存。<br>　它们的不同之处在于，new和delete会自动调用对象的构造和析构函数，而malloc/free则只申请内存。<br>　另外需要注意的是：new的不是数组的话，则直接delete就好，并且只会调用一次析构函数，而new[]的话，则需使用delete[]来释放，并且数组中每一个元素都会调用一次析构函数，调用完析构函数再释放内存。<br><img src="\images\newdelete.png" alt=""></p>
+<h4 id="c-动态类型与动态绑定、虚函数"><a href="#c-动态类型与动态绑定、虚函数" class="headerlink" title="c++动态类型与动态绑定、虚函数"></a>c++动态类型与动态绑定、虚函数</h4><p>静态类型：<br>静态类型仅依赖于包含表达式的程序文本的形式，而<strong>在程序运行时不会改变。</strong>通俗的讲，就是上下文无关，在编译时就可以确定其类型。</p>
+<p>动态类型：<br>一般地讲，<strong>基类的指针和基类引用有可能为动态类型，就是说在运行之前不能够确定其真实类型。</strong>通常我们说，“基类指针指向的对象的实际/真正类型”或“基类引用所引用的对象的实际/真正类型”，就是它们的动态类型。</p>
+<p>动态绑定：<br>就是基类的指针或引用有可能指向不同的派生类对象，<strong>对于非虚函数，执行时实际调用该函数的对象类型即为该指针或引用的静态类型（基类类型）；而对于虚函数，执行时实际调用该函数的对象类型为该指针或引用所指对象的实际类型。</strong><br>要触发动态绑定，需满足两个条件：<br>(1)  只有虚函数才能进行动态绑定，非虚函数不进行动态绑定。<br>(2)  必须通过基类类型的引用或指针进行函数调用。</p>
+<p>虚函数：非静态成员函数，其访问权限可以是protected或public<br>作用：<strong>当把基类的某个成员函数声明为虚函数后，允许在其派生类中对该函数重新定义，赋予它新的功能，并且可以通过指向基类的指针指向同一类族中不同类的对象，从而调用其中的同名函数。由虚函数实现的动态多态性就是：同一类族中不同类的对象，对同一函数调用作出不同的响应。</strong><br>本来基类指针是用来指向基类对象的，如果用它指向派生类对象，则进行指针类型转换，将派生类对象的指针先转换为基类的指针，<strong>所以基类指针指向的是派生类对象中的基类部分。</strong>在没使用虚函数前，<strong>是无法通过基类指针去调用派生类对象中的成员函数的</strong>。虚函数突破了这一限制，在派生类的基类部分中，派生类的虚函数取代了基类原来的虚函数，<strong>因此在使基类指针指向派生类对象后，调用虚函数时就调用了派生类的虚函数。</strong>要注意的是，只有用virtual声明了虚函数后才具有以上作用。如果不声明为虚函数，企图通过基类指针调用派生类的非虚函数是不行的。<strong>C++中基类采用virtual虚析构函数是为了防止内存泄漏。具体地说，如果派生类中申请了内存空间，并在其析构函数中对这些内存空间进行释放。假设基类中采用的是非虚析构函数，当删除基类指针指向的派生类对象时就不会触发动态绑定，因而只会调用基类的析构函数，而不会调用派生类的析构函数。那么在这种情况下，派生类中申请的空间就得不到释放从而产生内存泄漏。所以，为了防止这种情况的发生，C++中基类的析构函数应采用virtual虚析构函数。</strong></p>
+<p>纯虚函数：<br>在很多情况下，基类中不能对虚函数给出有意义的实现，而把它们说明为纯虚函数，它的实现留给该基类的派生类去做。这就是纯虚函数的作用。<strong>纯虚函数是虚函数的一个子集，用于抽象类，含有纯虚函数的类就是抽象类，它不能生成new对象。</strong>形式：virtual &lt;类型&gt;&lt;函数名&gt;(形参表) = 0;子类继承时必须重写纯虚函数。</p>
+<h4 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h4><p>封装就是将某些东西包装盒隐藏起来，让外界无法直接使用，只能通过某些特定的方式才能访问。<strong>封装的目的是增强安全性和简化编程，使用者不必了解具体的实现细节，</strong>而只是通过外部接口以及特定的访问权限来使用类的成员。<br>例如，通过set和get方法访问类中的私有成员。</p>
+<h4 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h4><p>格式：class derived-class: access-specifier base-class<br>访问控制：<br><img src="\images\hierarchy.png" alt=""><br>一个派生类继承了所有的基类方法，但下列情况除外：</p>
+<ul>
+<li>基类的构造函数、析构函数和拷贝构造函数。</li>
+<li>基类的重载运算符。</li>
+<li>基类的友元函数。<br>子类对象定义时，先调用父类的构造函数，再调用子类的构造函数；<br>子类对象销毁时，如果父类析构函数是虚函数，那么先调用子类的析构函数，再调用父类的析构函数，否则只会调用父类的析构函数；<h4 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h4>在<strong>程序执行期间(非编译期)判断所引用对象的实际类型，根据其实际类型调用相应的方法。</strong>使用virtual关键字修饰类的成员函数时，指明该函数为虚函数，派生类需要重新实现，编译器将实现动态绑定。<br>多态发生的三个条件：<br>（1） 要有继承。<br>（2） 父类的虚函数要在子类中重写。<br>（3） 父类的指针或引用指向父类对象或子类对象。</li>
+</ul>
+<h4 id="静态变量和静态方法"><a href="#静态变量和静态方法" class="headerlink" title="静态变量和静态方法"></a>静态变量和静态方法</h4><p>静态数据成员：在类中，<strong>静态成员可以实现多个对象之间的数据共享，并且使用静态数据成员还不会破坏隐藏的原则，即保证了安全性</strong>。因此，静态成员是类的所有对象中共享的成员，而不是某个对象的成员。<strong>使用静态数据成员可以节省内存，因为它是所有对象所公有的，因此，对多个对象来说，静态数据成员只存储一处，供所有对象共用。</strong>静态数据成员的值对每个对象都是一样，但它的值是可以更新的。只要对静态数据成员的值更新一次，保证所有对象存取更新后的相同的值，这样可以提高时间效率。</p>
+<p>静态成员函数：<br>在静态成员函数的实现中不能直接引用类中说明的非静态成员，<strong>可以引用类中说明的静态成员。如果静态成员函数中要引用非静态成员时，可通过对象来引用。</strong>从中可看出，调用静态成员函数使用如下格式：&lt;类名&gt;::&lt;静态成员函数名&gt;(&lt;参数表&gt;);<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StaticTest</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    StaticTest(<span class="keyword">int</span> a, <span class="keyword">int</span> b, <span class="keyword">int</span> c);</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">GetNumber</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">GetSum</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">f1</span><span class="params">(StaticTest &amp;s)</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> A, B, C;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">int</span> Sum;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"StaticTest.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> StaticTest::Sum = <span class="number">0</span>;<span class="comment">//静态成员在此初始化</span></span><br><span class="line"></span><br><span class="line">StaticTest::StaticTest(<span class="keyword">int</span> a, <span class="keyword">int</span> b, <span class="keyword">int</span> c)</span><br><span class="line">&#123;</span><br><span class="line">    A = a;</span><br><span class="line">    B = b;</span><br><span class="line">    C = c;</span><br><span class="line">    Sum += A + B + C;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> StaticTest::GetNumber()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"Number = "</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> StaticTest::GetSum()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"Sum = "</span> &lt;&lt; Sum &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> StaticTest::f1(StaticTest &amp;s)</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; s.A &lt;&lt; <span class="built_in">endl</span>;<span class="comment">//静态方法不能直接调用一般成员，可以通过对象引用实现调用</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; Sum &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"StaticTest.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    StaticTest M(3, 7, 10), N(14, 9, 11);</span><br><span class="line">    M.GetNumber();</span><br><span class="line">    N.GetSum();</span><br><span class="line">    M.GetNumber();</span><br><span class="line">    N.GetSum();</span><br><span class="line">    StaticTest::f1(M);</span><br><span class="line">    system(<span class="string">"pause"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="C-堆和栈"><a href="#C-堆和栈" class="headerlink" title="C++堆和栈"></a>C++堆和栈</h4><p>C++中，内存分为5个区：堆、栈、自由存储区、全局/静态存储区和常量存储区</p>
+<ul>
+<li>栈：是由编译器在需要时自动分配，不需要时自动清除的变量存储区。通常存放局部变量、函数参数等。</li>
+<li>堆：是由new分配的内存块，由程序员释放（编译器不管），一般一个new与一个delete对应，一个new[]与一个delete[]对应。如果程序员没有释放掉，资源将由操作系统在程序结束后自动回收。</li>
+<li>自由存储区：是由malloc等分配的内存块，和堆十分相似，用free来释放。</li>
+<li>全局/静态存储区：全局变量和静态变量被分配到同一块内存中（在C语言中，全局变量又分为初始化的和未初始化的，C++中没有这一区分）。</li>
+<li>常量存储区：这是一块特殊存储区，里边存放常量，不允许修改。<br>（注意：堆和自由存储区其实不过是同一块区域，new底层实现代码中调用了malloc，new可以看成是malloc智能化的高级版本）</li>
+</ul>
+<p>管理方式：堆中资源由程序员控制（<strong>容易产生memory leak）</strong>， 栈资源由编译器自动管理，无需手工控制。</p>
+<p>系统响应：对于堆，<strong>应知道系统有一个记录空闲内存地址的链表，当系统收到程序申请时，遍历该链表，寻找第一个空间大于申请空间的堆结点，删除空闲结点链表中的该结点，并将该结点空间分配给程序</strong>（大多数系统会在这块内存空间首地址记录本次分配的大小，这样delete才能正确释放本内存  空间，另外系统会将多余的部分重新放入空闲链表中）。对于栈，只要栈的剩余空间大于所申请空间，系统为程序提供内存，否则报异常提示栈出。</p>
+<p>空间大小：<strong>堆是不连续的内存区域（因为系统是用链表来存储空闲内存地址，自然不是连续的）</strong>，堆大小受限于计算机系统中有效的虚拟内存（32bit  系统理论上是4G），所以堆的空间比较灵活，比较大。<strong>栈是一块连续的内存区域，大小是操作系统预定好的</strong>，windows下栈大小是2M（也有是1M，在编译时确定，VC中可设置）。</p>
+<p> 碎片问题：<strong>对于堆，频繁的new/delete会造成大量碎片</strong>，使程序效率降低。 对于栈，它是一个先进后出的队列，进出一一对应，不会产生碎片。</p>
+<p> 分配方式： 堆都是动态分配（没有静态分配的堆）。栈有静态分配和动态分配，静态分配由编译器完成（如局部变量分配），动态分配由alloca函数分配，但栈的动态分配的资源由编译器进行释放，无需程序员实现。</p>
+<p> 分配效率：<strong>堆由C/C++函数库提供，机制很复杂。所以堆的效率比栈低很多</strong>。栈是操作系统提供的数据结构，计算机在底层对栈提供支持，分配专门寄存器存放栈地址，栈操作有专门指令。<br> <img src="\images\c++memory_stack_heap.png" alt=""></p>
+<h4 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h4><ol>
+<li>引用就是别名，就是变量多了一个名称而已。声明引用时要切记 始化，且引用本身不占存储单元。</li>
+<li>使用引用传递参数是直接对实参本身进行操作，<strong>当需要在函数内部修改传递进来的变量并传出去时，可使用引用。引用是无需重新分配存储空间的，但指针却需要，所以有时使用引用会更有效率。</strong></li>
+<li>当既要使用引用提高程序的效率，又不能在函数内部修改实参的值时，可使用常引用。</li>
+</ol>
+<h4 id="类构造函数和析构函数"><a href="#类构造函数和析构函数" class="headerlink" title="类构造函数和析构函数"></a>类构造函数和析构函数</h4><p>构造函数：构造函数的名称与类的名称是完全相同的，并且不会返回任何类型，也不会返回 void。构造函数可用于为某些成员变量设置初始值。</p>
+<ol>
+<li><p>使用初始化列表，对类的成员赋值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C::C(  double  a, double  b, double  c)</span><br><span class="line">: X(a), Y(b), Z(c)</span><br><span class="line">    &#123; .... &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>当类中含有const、reference(引用)成员变量时，类的构造函数都需要初始化表。</p>
+</li>
+</ol>
+<p>拷贝构造函数：<br>当用一个已初始化过了的自定义类类型对象去初始化另一个新构造的对象的时候，拷贝构造函数就会被自动调用。也就是说，当类的对象需要拷贝时，拷贝构造函数将会被调用。以下情况都会调用拷贝构造函数：</p>
+<ul>
+<li>一个对象以值传递的方式传入函数体 </li>
+<li>一个对象以值传递的方式从函数返回 </li>
+<li>一个对象需要通过另外一个对象进行初始化。</li>
+</ul>
+<p>浅拷贝（默认拷贝构造函数的缺点）：在某些状况下，类内成员变量需要动态开辟堆内存，如果实行位拷贝，也就是把对象里的值完全复制给另一个对象，如A=B。这时，如果B中有一个成员变量指针已经申请了内存，那A中的那个成员变量也指向同一块内存。这就出现了问题：当B把内存释放了（如：析构），这时A内的指针就是野指针了，出现运行错误。<br>深拷贝：重写拷贝构造函数<br><img src="\images\copyconstruction.png" alt=""></p>
+<p>析构函数：函数名是在类名前加上~，无参数且无返回值。</p>
+<h4 id="c-类型安全"><a href="#c-类型安全" class="headerlink" title="c++类型安全"></a>c++类型安全</h4><p>c++不是类型安全的，因为它会进行强制类型转换。</p>
+<h4 id="struct-和-class的区别"><a href="#struct-和-class的区别" class="headerlink" title="struct 和 class的区别"></a>struct 和 class的区别</h4><p>struct的成员默认是公有的，class的成员默认是私有的。<br>当类中有很少的方法并且有公有数据时，应该使用struct关键字，否则使用class关键字。</p>
+<h4 id="指针指向常量字符串"><a href="#指针指向常量字符串" class="headerlink" title="指针指向常量字符串"></a>指针指向常量字符串</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">char *p = “hello”;//注意p指向常量字符串</span><br><span class="line">p[0] = ‘X’;//不正确，编译不报错，运行时报错</span><br></pre></td></tr></table></figure>
+<h4 id="C-重载重写隐藏"><a href="#C-重载重写隐藏" class="headerlink" title="C++重载重写隐藏"></a>C++重载重写隐藏</h4><p><img src="\images\overriding.png" alt=""></p>
+<ol>
+<li>重载：在同一个作用域内；函数名相同，参数列表不同（参数<strong>个数不同</strong>，或者参数<strong>类型不同</strong>，或者<strong>参数个数和参数类型都不同</strong>），返回值类型可相同也可不同。这种情况叫做c++的重载。<br><strong>c++函数重载达到的效果</strong>：调用函数名相同的函数，会根据实参的类型和实参顺序以及实参个数选择相应的函数。是静态多态。</li>
+<li>重写：当在子类中定义了一个与父类<strong>完全相同</strong>的虚函数时，则称子类的这个函数<strong>重写（也称覆盖）</strong>了父类的这个虚函数。<br>在子类中重写了父类的虚函数，那么子类对象调用该重写函数，调用到的是子类内部重写的虚函数，而并不是从父类继承下来的虚函数；（这其实就是动态多态的实现）。</li>
+<li>隐藏：是指在<strong>不同的作用域中</strong>（分别在父类和子类中），<strong>函数名相同，</strong>不能构成重写的都是重定义。重定义的<strong>不光是类的成员函数</strong>，还可以是<strong>类的成员变量</strong>。</li>
+</ol>
+<h4 id="c-友元"><a href="#c-友元" class="headerlink" title="c++友元"></a>c++友元</h4><p>采用类的机制后实现了数据的隐藏与封装，类的数据成员一般定义为私有成员，成员函数一般定义为公有的，依此提供类与外界间的通信接口。<strong>但是，有时需要定义一些函数，这些函数不是类的一部分，但又需要频繁地访问类的数据成员，这时可以将这些函数定义为该函数的友元函数。</strong>除了友元函数外，还有友元类，两者统称为友元。友元的作用是提高了程序的运行效率（即减少了类型检查和安全性检查等都需要时间开销），但它破坏了类的封装性和隐藏性，使得非成员函数可以访问类的私有成员和保护成员，相当于在墙上打了一个洞一样。</p>
+<ol>
+<li><p>友元函数<br>友元函数是可以<strong>直接访问类的私有成员的非成员函数。</strong>它是定义在类外的普通函数，它不属于任何类，但需要在类的定义中加以声明，声明时只需在友元的名称前加上关键字friend</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">class CPerson</span><br><span class="line">&#123;</span><br><span class="line">public: </span><br><span class="line">    CPerson()</span><br><span class="line">    &#123; </span><br><span class="line">        height = 170; </span><br><span class="line">     &#125; </span><br><span class="line">     friend void printHeight();</span><br><span class="line">private: int height; </span><br><span class="line">&#125;; </span><br><span class="line">void printHeight() </span><br><span class="line">&#123; </span><br><span class="line">    CPerson person; </span><br><span class="line">    printf(&quot;身高:%d\n&quot;, person.height); </span><br><span class="line">&#125;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    printHeight();</span><br><span class="line">    return 0; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>友元类，友元类的所有成员函数都是另一个类的友元函数，都可以访问另一个类中的隐藏信息（包括私有成员和保护成员）。当希望一个类可以存取另一个类的私有成员时，可以将该类声明为另一类的友元类。</p>
+</li>
+<li>Attention<pre><code> 友元关系不能被继承。
+ 友元关系是单向的，不具有交换性。
+ 友元关系不具有传递性。
+</code></pre></li>
+</ol>
+<h4 id="explicit关键字"><a href="#explicit关键字" class="headerlink" title="explicit关键字"></a>explicit关键字</h4><p>有时候在我们写下如 AAA = XXX， 这样的代码， 且恰好XXX的类型正好是AAA单参数构造器的参数类型， 这时候编译器就自动调用这个构造器， 创建一个AAA的对象。C++中， 一个参数的构造函数(或者除了第一个参数外其余参数都有默认值的多参构造函数)，可能存在这个问题。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">class Test1</span><br><span class="line">&#123;</span><br><span class="line">public :</span><br><span class="line">	Test1(int num):n(num)&#123;&#125;</span><br><span class="line">private:</span><br><span class="line">	int n;</span><br><span class="line">&#125;;</span><br><span class="line">class Test2</span><br><span class="line">&#123;</span><br><span class="line">public :</span><br><span class="line">	explicit Test2(int num):n(num)&#123;&#125;</span><br><span class="line">private:</span><br><span class="line">	int n;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	Test1 t1 = 12;</span><br><span class="line">	Test2 t2(13);</span><br><span class="line">	Test2 t3 = 14;</span><br><span class="line">		</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="逗号表达式"><a href="#逗号表达式" class="headerlink" title="逗号表达式"></a>逗号表达式</h4><p>printf(“%d %d %d\n”, (a,b,c),b,c);<br>那么将输出才c，b，c这3个值，因为逗号表达式的值就是表达式中最后一个表达式的值。<br>即：表达式1，表达式2，表达式3…表达式n 就是表达式n的值。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/03/C/" rel="next" title="C/C++题目总结">
+                <i class="fa fa-chevron-left"></i> C/C++题目总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/05/计算机视觉深度学习中对抗攻击的威胁/" rel="prev" title="计算机视觉深度学习中对抗攻击的威胁">
+                计算机视觉深度学习中对抗攻击的威胁 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Hanjie WU" />
+            
+              <p class="site-author-name" itemprop="name">Hanjie WU</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/cshanjiewu" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:cshanjiewu@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#c-c-申请动态内存"><span class="nav-number">1.</span> <span class="nav-text">c/c++申请动态内存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#c-动态类型与动态绑定、虚函数"><span class="nav-number">2.</span> <span class="nav-text">c++动态类型与动态绑定、虚函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#封装"><span class="nav-number">3.</span> <span class="nav-text">封装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#继承"><span class="nav-number">4.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多态"><span class="nav-number">5.</span> <span class="nav-text">多态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#静态变量和静态方法"><span class="nav-number">6.</span> <span class="nav-text">静态变量和静态方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C-堆和栈"><span class="nav-number">7.</span> <span class="nav-text">C++堆和栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#引用"><span class="nav-number">8.</span> <span class="nav-text">引用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类构造函数和析构函数"><span class="nav-number">9.</span> <span class="nav-text">类构造函数和析构函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#c-类型安全"><span class="nav-number">10.</span> <span class="nav-text">c++类型安全</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#struct-和-class的区别"><span class="nav-number">11.</span> <span class="nav-text">struct 和 class的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#指针指向常量字符串"><span class="nav-number">12.</span> <span class="nav-text">指针指向常量字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C-重载重写隐藏"><span class="nav-number">13.</span> <span class="nav-text">C++重载重写隐藏</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#c-友元"><span class="nav-number">14.</span> <span class="nav-text">c++友元</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#explicit关键字"><span class="nav-number">15.</span> <span class="nav-text">explicit关键字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逗号表达式"><span class="nav-number">16.</span> <span class="nav-text">逗号表达式</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hanjie WU</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>
